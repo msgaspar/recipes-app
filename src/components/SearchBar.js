@@ -1,5 +1,11 @@
 import React, { useState } from 'react';
 
+import {
+  searchFoodByIngredient,
+  searchFoodByName,
+  searchFoodByFirstLetter,
+} from '../services/foodSearch';
+
 export default function SearchBar() {
   const [searchType, setSearchType] = useState('');
   const [searchText, setSearchText] = useState('');
@@ -7,6 +13,23 @@ export default function SearchBar() {
   function handleTextSearch(target) {
     const { value } = target;
     setSearchText(value);
+  }
+
+  function handleSearch() {
+    const fetchOptions = {
+      ingredient: () => searchFoodByIngredient(searchText),
+      foodName: () => searchFoodByName(searchText),
+      firstLetter: () => searchFoodByFirstLetter(searchText),
+    };
+    if (searchType !== 'firstLetter' && searchText) {
+      fetchOptions[searchType]();
+    }
+    if (searchType === 'firstLetter' && searchText.length !== 1) {
+      alert('Sua busca deve conter somente 1 (um) caracter');
+    }
+    if (searchType === 'firstLetter' && searchText.length === 1) {
+      fetchOptions[searchType]();
+    }
   }
 
   return (
@@ -38,7 +61,7 @@ export default function SearchBar() {
           <input
             name="search-type"
             type="radio"
-            value="name"
+            value="foodName"
             id="ingredient-search-radio"
             data-testid="name-search-radio"
             onChange={ ({ target }) => setSearchType(target.value) }
@@ -49,7 +72,7 @@ export default function SearchBar() {
           <input
             name="search-type"
             type="radio"
-            value="first-letter"
+            value="firstLetter"
             id="first-letter-search-radio"
             data-testid="first-letter-search-radio"
             onChange={ ({ target }) => setSearchType(target.value) }
@@ -59,6 +82,7 @@ export default function SearchBar() {
       <button
         type="button"
         data-testid="exec-search-btn"
+        onClick={ () => handleSearch() }
       >
         Buscar
       </button>
