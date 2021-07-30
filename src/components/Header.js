@@ -5,8 +5,8 @@ import SearchIcon from '../images/searchIcon.svg';
 
 export default function Header({ title, showSearchIcon }) {
   return (
-    <header className="container">
-      <div className="row align-items-center" style={ { height: '80px' } }>
+    <header className="container" style={ { backgroundColor: '#E3E3E3' } }>
+      <div className="row align-items-center" style={ { height: '60px' } }>
         <div className="col-2">
           <img
             data-testid="profile-top-btn"
