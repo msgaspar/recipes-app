@@ -14,7 +14,7 @@ export async function searchDrinkByName(drinkName) {
 
 export async function searchDrinkByFirstLetter(word) {
   const firstLetter = word[0];
-  const URL = `https://www.thecocktaildb.com/api/json/v1/1/search.php?s=${firstLetter}`;
+  const URL = `https://www.thecocktaildb.com/api/json/v1/1/search.php?f=${firstLetter}`;
   const response = await fetch(URL);
   const data = response.json();
   return data;

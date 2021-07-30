@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useLocation } from 'react-router-dom';
 
 import {
   searchFoodByIngredient,
@@ -6,9 +7,16 @@ import {
   searchFoodByFirstLetter,
 } from '../services/foodSearch';
 
+import {
+  searchDrinkByIngredient,
+  searchDrinkByName,
+  searchDrinkByFirstLetter,
+} from '../services/drinkSearch';
+
 export default function SearchBar() {
   const [searchType, setSearchType] = useState('');
   const [searchText, setSearchText] = useState('');
+  const location = useLocation();
 
   function handleTextSearch(target) {
     const { value } = target;
@@ -17,18 +25,25 @@ export default function SearchBar() {
 
   function handleSearch() {
     const fetchOptions = {
-      ingredient: () => searchFoodByIngredient(searchText),
-      foodName: () => searchFoodByName(searchText),
-      firstLetter: () => searchFoodByFirstLetter(searchText),
+      '/comidas': {
+        ingredient: () => searchFoodByIngredient(searchText),
+        foodName: () => searchFoodByName(searchText),
+        firstLetter: () => searchFoodByFirstLetter(searchText),
+      },
+      '/bebidas': {
+        ingredient: () => searchDrinkByIngredient(searchText),
+        foodName: () => searchDrinkByName(searchText),
+        firstLetter: () => searchDrinkByFirstLetter(searchText),
+      },
     };
     if (searchType !== 'firstLetter' && searchText) {
-      fetchOptions[searchType]();
+      fetchOptions[location.pathname][searchType]();
     }
     if (searchType === 'firstLetter' && searchText.length !== 1) {
       alert('Sua busca deve conter somente 1 (um) caracter');
     }
     if (searchType === 'firstLetter' && searchText.length === 1) {
-      fetchOptions[searchType]();
+      fetchOptions[location.pathname][searchType]();
     }
   }
 
