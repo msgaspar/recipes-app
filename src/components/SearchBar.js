@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import React, { useContext, useState } from 'react';
+import { useLocation, Redirect } from 'react-router-dom';
+import FoodsContext from '../context/FoodsContext';
 
 import {
   searchFoodByIngredient,
@@ -17,13 +18,14 @@ export default function SearchBar() {
   const [searchType, setSearchType] = useState('');
   const [searchText, setSearchText] = useState('');
   const location = useLocation();
+  const { recipeData, setRecipeData } = useContext(FoodsContext);
 
   function handleTextSearch(target) {
     const { value } = target;
     setSearchText(value);
   }
 
-  function handleSearch() {
+  async function handleSearch() {
     const fetchOptions = {
       '/comidas': {
         ingredient: () => searchFoodByIngredient(searchText),
@@ -37,14 +39,26 @@ export default function SearchBar() {
       },
     };
     if (searchType !== 'firstLetter' && searchText) {
-      fetchOptions[location.pathname][searchType]();
+      const data = await fetchOptions[location.pathname][searchType]();
+      setRecipeData([...data]);
     }
     if (searchType === 'firstLetter' && searchText.length !== 1) {
       alert('Sua busca deve conter somente 1 (um) caracter');
     }
     if (searchType === 'firstLetter' && searchText.length === 1) {
-      fetchOptions[location.pathname][searchType]();
+      const data = await fetchOptions[location.pathname][searchType]();
+      setRecipeData([...data]);
     }
+  }
+
+  function handleRedirect() {
+    const foodRedirect = <Redirect to={ `/comidas/${recipeData[0].idMeal}` } />;
+    const drinkRedirect = <Redirect to={ `/bebidas/${recipeData[0].idDrink}` } />;
+    const redirectOptions = {
+      '/comidas': () => foodRedirect,
+      '/bebidas': () => drinkRedirect,
+    };
+    return redirectOptions[location.pathname]();
   }
 
   return (
@@ -101,6 +115,7 @@ export default function SearchBar() {
       >
         Buscar
       </button>
+      {recipeData.length === 1 ? handleRedirect() : null}
     </div>
   );
 }
