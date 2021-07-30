@@ -1,0 +1,13 @@
+.cards-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.recipe-card-wrapper img{
+  width: 200px;
+  height: 200px;
+  margin: 10px;
+}
