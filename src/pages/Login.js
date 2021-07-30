@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 export default function Login() {
   const [invalidPassword, setInvalidPassword] = useState(true);
@@ -50,14 +51,18 @@ export default function Login() {
           onChange={ handlePassword }
         />
       </label>
-      <button
-        type="button"
-        data-testid="login-submit-btn"
-        disabled={ invalidEmail || invalidPassword }
-        onClick={ handleClick }
+      <Link
+        to="/comidas"
       >
-        Entrar
-      </button>
+        <button
+          type="button"
+          data-testid="login-submit-btn"
+          disabled={ invalidEmail || invalidPassword }
+          onClick={ handleClick }
+        >
+          Entrar
+        </button>
+      </Link>
     </div>
   );
 }
