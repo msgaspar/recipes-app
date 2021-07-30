@@ -1,13 +1,34 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import FoodsContext from '../context/FoodsContext';
 
 import '../styles/RecipesRender.css';
 
 export default function RecipesRender() {
-  const { recipeData } = useContext(FoodsContext);
+  const { recipeData, setRecipeData } = useContext(FoodsContext);
   const location = useLocation();
   const size = 12;
+  const FOOD_URL = 'https://www.themealdb.com/api/json/v1/1/search.php?s=';
+  const DRINK_URL = 'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=';
+
+  useEffect(() => {
+    const foodsRequest = async () => {
+      const response = await fetch(FOOD_URL);
+      const data = await response.json();
+      return data.meals.splice(0, size);
+    };
+    const drinksRequest = async () => {
+      const response = await fetch(DRINK_URL);
+      const data = await response.json();
+      return data.drinks.splice(0, size);
+    };
+    if (location.pathname === '/comidas') {
+      foodsRequest().then((data) => setRecipeData([...data]));
+    }
+    if (location.pathname === '/bebidas') {
+      drinksRequest().then((data) => setRecipeData([...data]));
+    }
+  }, [setRecipeData, location]);
 
   function handleFoodCards() {
     if (recipeData.length > 1) {
