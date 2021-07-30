@@ -4,6 +4,7 @@ export default function Login() {
   const [invalidPassword, setInvalidPassword] = useState(true);
   const [invalidEmail, setInvalidEmail] = useState(true);
 
+  // Verifica se o email é válido
   const handleEmail = (event) => {
     const re = /\S+@\S+\.\S+/;
     if (re.test(event.target.value)) {
@@ -11,6 +12,7 @@ export default function Login() {
     }
   };
 
+  // Verifica se a senha é válida
   const handlePassword = (event) => {
     const password = event.target.value;
     const lengthPassword = 6;
