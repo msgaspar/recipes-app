@@ -7,11 +7,12 @@ import '../styles/RecipesRender.css';
 export default function RecipesRender() {
   const { recipeData } = useContext(FoodsContext);
   const location = useLocation();
+  const size = 12;
 
   function handleFoodCards() {
     if (recipeData.length > 1) {
       return (
-        recipeData.map((recipe, index) => (
+        recipeData.slice(0, size).map((recipe, index) => (
           <div
             data-testid={ `${index}-recipe-card` }
             className="recipe-card-wrapper"
@@ -37,7 +38,7 @@ export default function RecipesRender() {
   function handleDrinkCards() {
     if (recipeData.length > 1) {
       return (
-        recipeData.map((recipe, index) => (
+        recipeData.slice(0, size).map((recipe, index) => (
           <div
             data-testid={ `${index}-recipe-card` }
             className="recipe-card-wrapper"
