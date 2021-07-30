@@ -40,15 +40,20 @@ export default function SearchBar() {
     };
     if (searchType !== 'firstLetter' && searchText) {
       const data = await fetchOptions[location.pathname][searchType]();
-      setRecipeData([...data]);
-    }
-    if (searchType === 'firstLetter' && searchText.length !== 1) {
-      alert('Sua busca deve conter somente 1 (um) caracter');
+      if (!data) {
+        return alert('Sinto muito, não encontramos nenhuma receita para esses filtros.');
+      }
+      return setRecipeData([...data]);
     }
     if (searchType === 'firstLetter' && searchText.length === 1) {
       const data = await fetchOptions[location.pathname][searchType]();
-      setRecipeData([...data]);
+      if (!data) {
+        return alert('Sinto muito, não encontramos nenhuma receita para esses filtros.');
+      }
+      return setRecipeData([...data]);
     }
+
+    return (alert('Sua busca deve conter somente 1 (um) caracter'));
   }
 
   function handleRedirect() {
