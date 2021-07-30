@@ -5,7 +5,7 @@ import SearchBar from '../components/SearchBar';
 export default function FoodRecipes() {
   return (
     <div>
-      <Header title="Comidas" />
+      <Header title="Comidas" showSearchIcon />
       <SearchBar />
       food recipes
     </div>
