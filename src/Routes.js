@@ -44,7 +44,7 @@ export default function Routes() {
         />
         <Route path="/explorar/comidas/area" exact component={ ExploreFoodsByArea } />
         <Route path="/perfil" exact component={ Profile } />
-        <Route path="/receita-feitas" exact component={ DoneRecipes } />
+        <Route path="/receitas-feitas" exact component={ DoneRecipes } />
         <Route path="/receitas-favoritas" exact component={ FavoriteRecipes } />
       </Switch>
     </BrowserRouter>
