@@ -1,6 +1,6 @@
 /// <reference types="cypress" />
 
-describe.only('19 - Implemente os elementos do menu inferior respeitando os atributos descritos no protótipo', () => {
+describe('19 - Implemente os elementos do menu inferior respeitando os atributos descritos no protótipo', () => {
   it('Tem os data-testids footer, drinks-bottom-btn, explore-bottom-btn e food-bottom-btn', () => {
     cy.visit('http://localhost:3000/comidas');
 
@@ -11,7 +11,7 @@ describe.only('19 - Implemente os elementos do menu inferior respeitando os atri
   });
 });
 
-describe('20 - Posicione o menu inferior de forma fixa e apresente 3 ícones: um para comidas, um para bebidas e outro para exploração', () => {
+describe.only('20 - Posicione o menu inferior de forma fixa e apresente 3 ícones: um para comidas, um para bebidas e outro para exploração', () => {
   it('O menu inferior deve ficar fixado sempre ao final da página', () => {
     cy.visit('http://localhost:3000/comidas');
 
