@@ -5,13 +5,30 @@ import FoodsContext from '../context/FoodsContext';
 export default function CategoryButtons() {
   const FOOD_BUTTONS_URL = 'https://www.themealdb.com/api/json/v1/1/list.php?c=list';
   const DRINK_BUTTONS_URL = 'https://www.thecocktaildb.com/api/json/v1/1/list.php?c=list';
+  const FOOD_CATEGORIES_URL = 'https://www.themealdb.com/api/json/v1/1/filter.php?c=';
+  const DRINK_CATEGORIES_URL = 'https://www.thecocktaildb.com/api/json/v1/1/filter.php?c=';
   const sizeButtons = 5;
   const location = useLocation();
   const {
+    setRecipeData,
     recipeData,
     buttonsCategories,
     setButtonsCategories,
   } = useContext(FoodsContext);
+
+  const categoryClickOptions = {
+    '/comidas': FOOD_CATEGORIES_URL,
+    '/bebidas': DRINK_CATEGORIES_URL,
+  };
+
+  async function searchFoodByCategory(category) {
+    const endpoint = categoryClickOptions[location.pathname];
+    const response = await fetch(`${endpoint}${category}`);
+    const data = await response.json();
+    if (location.pathname === '/comidas') {
+      return setRecipeData({ ...recipeData, meals: [...data.meals] });
+    } return setRecipeData({ ...recipeData, drinks: [...data.drinks] });
+  }
 
   useEffect(() => {
     const buttonsRequest = async () => {
@@ -39,6 +56,7 @@ export default function CategoryButtons() {
           type="button"
           key={ category }
           data-testid={ `${category}-category-filter` }
+          onClick={ ({ target }) => searchFoodByCategory(target.innerHTML) }
         >
           { category }
         </button>
