@@ -1,0 +1,9 @@
+.menu-footer{
+  position: fixed;
+  bottom: 0px;
+}
+
+.footer-wrap img {
+  margin-left: 8px;
+  margin-bottom: 8px;
+}
