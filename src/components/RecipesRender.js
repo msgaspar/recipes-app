@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useHistory } from 'react-router-dom';
 import FoodsContext from '../context/FoodsContext';
 import CategoryButtons from './CategoryButtons';
 
@@ -13,6 +13,7 @@ export default function RecipesRender() {
     setButtonsCategories,
   } = useContext(FoodsContext);
   const location = useLocation();
+  const history = useHistory();
   const sizeCards = 12;
   const FOOD_CARDS_URL = 'https://www.themealdb.com/api/json/v1/1/search.php?s=';
   const DRINK_CARDS_URL = 'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=';
@@ -36,15 +37,28 @@ export default function RecipesRender() {
     }
   }, [setRecipeData, location, setButtonsCategories]);
 
+  function handleCardClick(id) {
+    const redirectOptions = {
+      '/comidas': (recipeId) => history.push(`/comidas/${recipeId}`),
+      '/bebidas': (recipeId) => history.push(`/bebidas/${recipeId}`),
+    };
+    redirectOptions[location.pathname](id);
+  }
+
   function handleFoodPage() {
     if (recipeData.meals && buttonsCategories) {
       return (
         <div>
           {recipeData.meals.slice(0, sizeCards).map((recipe, index) => (
             <div
+              role="button"
               data-testid={ `${index}-recipe-card` }
               className="recipe-card-wrapper"
               key={ index }
+              id={ recipe.idMeal }
+              onClick={ ({ target }) => handleCardClick(target.id) }
+              onKeyDown={ ({ target }) => handleCardClick(target.id) }
+              tabIndex="0"
             >
               <img
                 src={ recipe.strMealThumb }
@@ -70,9 +84,14 @@ export default function RecipesRender() {
         <div>
           {recipeData.drinks.slice(0, sizeCards).map((recipe, index) => (
             <div
+              role="button"
               data-testid={ `${index}-recipe-card` }
               className="recipe-card-wrapper"
               key={ index }
+              id={ recipe.idDrink }
+              onClick={ ({ target }) => handleCardClick(target.id) }
+              onKeyDown={ ({ target }) => handleCardClick(target.id) }
+              tabIndex="0"
             >
               <img
                 src={ recipe.strDrinkThumb }
