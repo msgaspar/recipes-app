@@ -20,39 +20,44 @@ export default function SearchBar() {
   const location = useLocation();
   const { recipeData, setRecipeData } = useContext(FoodsContext);
 
+  const fetchOptions = {
+    '/comidas': {
+      ingredient: () => searchFoodByIngredient(searchText),
+      foodName: () => searchFoodByName(searchText),
+      firstLetter: () => searchFoodByFirstLetter(searchText),
+    },
+    '/bebidas': {
+      ingredient: () => searchDrinkByIngredient(searchText),
+      foodName: () => searchDrinkByName(searchText),
+      firstLetter: () => searchDrinkByFirstLetter(searchText),
+    },
+  };
+
+  const setRecipeDataOptions = {
+    '/comidas': (foodRecipe) => setRecipeData({ meals: foodRecipe.meals }),
+    '/bebidas': (foodRecipe) => setRecipeData({ drinks: foodRecipe.drinks }),
+  };
+
   function handleTextSearch(target) {
     const { value } = target;
     setSearchText(value);
   }
 
   async function handleSearch() {
-    const fetchOptions = {
-      '/comidas': {
-        ingredient: () => searchFoodByIngredient(searchText),
-        foodName: () => searchFoodByName(searchText),
-        firstLetter: () => searchFoodByFirstLetter(searchText),
-      },
-      '/bebidas': {
-        ingredient: () => searchDrinkByIngredient(searchText),
-        foodName: () => searchDrinkByName(searchText),
-        firstLetter: () => searchDrinkByFirstLetter(searchText),
-      },
-    };
     if (searchType !== 'firstLetter' && searchText) {
       const data = await fetchOptions[location.pathname][searchType]();
-      if (!data) {
+      if (!data.meals && !data.drinks) {
         return alert('Sinto muito, não encontramos nenhuma receita para esses filtros.');
       }
-      return setRecipeData([...data]);
+      return setRecipeDataOptions[location.pathname](data);
     }
     if (searchType === 'firstLetter' && searchText.length === 1) {
       const data = await fetchOptions[location.pathname][searchType]();
-      if (!data) {
+      if (!data.meals && !data.drinks) {
         return alert('Sinto muito, não encontramos nenhuma receita para esses filtros.');
       }
-      return setRecipeData([...data]);
+      return setRecipeDataOptions[location.pathname](data);
     }
-
     return (alert('Sua busca deve conter somente 1 (um) caracter'));
   }
 
