@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import FoodsContext from '../context/FoodsContext';
 
@@ -7,8 +7,11 @@ export default function CategoryButtons() {
   const DRINK_BUTTONS_URL = 'https://www.thecocktaildb.com/api/json/v1/1/list.php?c=list';
   const FOOD_CATEGORIES_URL = 'https://www.themealdb.com/api/json/v1/1/filter.php?c=';
   const DRINK_CATEGORIES_URL = 'https://www.thecocktaildb.com/api/json/v1/1/filter.php?c=';
+  const FOOD_CARDS_URL = 'https://www.themealdb.com/api/json/v1/1/search.php?s=';
+  const DRINK_CARDS_URL = 'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=';
   const sizeButtons = 5;
   const location = useLocation();
+  const [category, setCategory] = useState('');
   const {
     setRecipeData,
     recipeData,
@@ -21,13 +24,50 @@ export default function CategoryButtons() {
     '/bebidas': DRINK_CATEGORIES_URL,
   };
 
-  async function searchFoodByCategory(category) {
+  function setFoodRecipeData(data, buttonText) {
+    setRecipeData({ ...recipeData, meals: [...data.meals] });
+    setCategory(buttonText);
+  }
+
+  function setDrinkRecipeData(data, buttonText) {
+    setRecipeData({ ...recipeData, drinks: [...data.drinks] });
+    setCategory(buttonText);
+  }
+
+  const setRecipeOptions = {
+    '/comidas': (data, buttonText) => setFoodRecipeData(data, buttonText),
+    '/bebidas': (data, buttonText) => setDrinkRecipeData(data, buttonText),
+  };
+
+  async function searchRecipeByCategory(buttonText) {
     const endpoint = categoryClickOptions[location.pathname];
-    const response = await fetch(`${endpoint}${category}`);
+    const response = await fetch(`${endpoint}${buttonText}`);
     const data = await response.json();
-    if (location.pathname === '/comidas') {
-      return setRecipeData({ ...recipeData, meals: [...data.meals] });
-    } return setRecipeData({ ...recipeData, drinks: [...data.drinks] });
+
+    return setRecipeOptions[location.pathname](data, buttonText);
+  }
+
+  async function foodsRequest() {
+    const response = await fetch(FOOD_CARDS_URL);
+    const data = await response.json();
+    return data;
+  }
+
+  async function drinksRequest() {
+    const response = await fetch(DRINK_CARDS_URL);
+    const data = await response.json();
+    return data;
+  }
+
+  function toogleCategoryButton(buttonText) {
+    if (location.pathname === '/comidas' && category === buttonText) {
+      return foodsRequest().then((data) => setRecipeData({ meals: data.meals }));
+    }
+    if (location.pathname === '/bebidas' && category === buttonText) {
+      return drinksRequest().then((data) => setRecipeData({ drinks: data.drinks }));
+    }
+
+    searchRecipeByCategory(buttonText);
   }
 
   useEffect(() => {
@@ -51,14 +91,14 @@ export default function CategoryButtons() {
   function generateCategoriesButtons() {
     const recipeCategories = buttonsCategories.map(({ strCategory }) => strCategory);
     return (
-      recipeCategories.slice(0, sizeButtons).map((category) => (
+      recipeCategories.slice(0, sizeButtons).map((type) => (
         <button
           type="button"
-          key={ category }
-          data-testid={ `${category}-category-filter` }
-          onClick={ ({ target }) => searchFoodByCategory(target.innerHTML) }
+          key={ type }
+          data-testid={ `${type}-category-filter` }
+          onClick={ ({ target }) => toogleCategoryButton(target.innerHTML) }
         >
-          { category }
+          { type }
         </button>
       ))
     );
