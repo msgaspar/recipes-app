@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from 'react';
-import { useLocation, useHistory, Link } from 'react-router-dom';
+import { useLocation, Link } from 'react-router-dom';
 import FoodsContext from '../context/FoodsContext';
 import CategoryButtons from './CategoryButtons';
 
