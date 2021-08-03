@@ -1,7 +1,11 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import { Image, Button, Badge } from 'react-bootstrap';
 
 export default function FoodDetails() {
+  const [foodDetails, setFoodDetails] = useState();
+  const location = useLocation();
+  const FOOD_DETAILS_URL = 'https://www.themealdb.com/api/json/v1/1/lookup.php?i=';
   const ingredients = [
     'white flour',
     'salt',
@@ -15,8 +19,19 @@ export default function FoodDetails() {
     'receita 3',
   ];
 
+  useEffect(() => {
+    const foodRequestById = async () => {
+      const foodId = location.pathname.split('/')[2];
+      const response = await fetch(`${FOOD_DETAILS_URL}${foodId}`);
+      const data = await response.json();
+      return data.meals[0];
+    };
+    foodRequestById().then((data) => setFoodDetails(data));
+  });
+
   return (
     <div>
+      <p>{foodDetails ? foodDetails.idMeal : ''}</p>
       <Image
         fluid
         src="https://www.themealdb.com/images/media/meals/bc8v651619789840.jpg"
@@ -70,7 +85,9 @@ export default function FoodDetails() {
           ))}
         </ul>
       </div>
-      <Button data-testid="start-recipe-btn">Iniciar Receita</Button>
+      <Button data-testid="start-recipe-btn">
+        Iniciar Receita
+      </Button>
     </div>
   );
 }
