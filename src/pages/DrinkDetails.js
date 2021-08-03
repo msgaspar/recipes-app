@@ -1,7 +1,11 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import { Button, Image, Badge } from 'react-bootstrap';
 
 export default function DrinkDetails() {
+  const [drinkDetails, setDrinkDetails] = useState();
+  const location = useLocation();
+  const DRINK_DETAILS_URL = 'https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=';
   const ingredients = [
     'white flour',
     'salt',
@@ -15,8 +19,19 @@ export default function DrinkDetails() {
     'receita 3',
   ];
 
+  useEffect(() => {
+    const drinkRequestById = async () => {
+      const foodId = location.pathname.split('/')[2];
+      const response = await fetch(`${DRINK_DETAILS_URL}${foodId}`);
+      const data = await response.json();
+      return data.drinks[0];
+    };
+    drinkRequestById().then((data) => setDrinkDetails(data));
+  });
+
   return (
     <div>
+      <p>{ drinkDetails ? drinkDetails.idDrink : ''}</p>
       <Image
         fluid
         src="https://www.themealdb.com/images/media/meals/bc8v651619789840.jpg"
