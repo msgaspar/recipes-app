@@ -17,7 +17,9 @@ export default function ExploreDrinks() {
           Por Ingredientes
         </button>
       </Link>
-      <Link>
+      <Link
+        to="/"
+      >
         <button
           type="button"
           data-testid="explore-surprise"

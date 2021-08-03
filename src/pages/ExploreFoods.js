@@ -27,7 +27,9 @@ export default function ExploreFoods() {
           Por Local de Origem
         </button>
       </Link>
-      <Link>
+      <Link
+        to="/"
+      >
         <button
           type="button"
           data-testid="explore-surprise"
