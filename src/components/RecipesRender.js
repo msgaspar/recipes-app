@@ -22,18 +22,18 @@ export default function RecipesRender() {
     const foodsRequest = async () => {
       const response = await fetch(FOOD_CARDS_URL);
       const data = await response.json();
-      return data;
+      return data.meals;
     };
     const drinksRequest = async () => {
       const response = await fetch(DRINK_CARDS_URL);
       const data = await response.json();
-      return data;
+      return data.drinks;
     };
     if (location.pathname === '/comidas') {
-      foodsRequest().then((data) => setRecipeData({ meals: data.meals }));
+      foodsRequest().then((data) => setRecipeData([...data]));
     }
     if (location.pathname === '/bebidas') {
-      drinksRequest().then((data) => setRecipeData({ drinks: data.drinks }));
+      drinksRequest().then((data) => setRecipeData([...data]));
     }
   }, [setRecipeData, location, setButtonsCategories]);
 
@@ -46,10 +46,10 @@ export default function RecipesRender() {
   }
 
   function handleFoodPage() {
-    if (recipeData.meals && buttonsCategories) {
+    if (recipeData && buttonsCategories) {
       return (
         <div>
-          {recipeData.meals.slice(0, sizeCards).map((recipe, index) => (
+          {recipeData.slice(0, sizeCards).map((recipe, index) => (
             <div
               role="button"
               data-testid={ `${index}-recipe-card` }
@@ -79,10 +79,10 @@ export default function RecipesRender() {
   }
 
   function handleDrinkPage() {
-    if (recipeData.drinks && buttonsCategories) {
+    if (recipeData && buttonsCategories) {
       return (
         <div>
-          {recipeData.drinks.slice(0, sizeCards).map((recipe, index) => (
+          {recipeData.slice(0, sizeCards).map((recipe, index) => (
             <div
               role="button"
               data-testid={ `${index}-recipe-card` }
