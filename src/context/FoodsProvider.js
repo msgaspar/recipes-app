@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import FoodsContext from './FoodsContext';
 
 export default function FoodsProvider({ children }) {
-  const [recipeData, setRecipeData] = useState({});
+  const [recipeData, setRecipeData] = useState([]);
   const [buttonsCategories, setButtonsCategories] = useState([]);
   const context = {
     recipeData,
