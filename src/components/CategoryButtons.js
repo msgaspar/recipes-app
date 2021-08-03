@@ -69,6 +69,15 @@ export default function CategoryButtons() {
 
     searchRecipeByCategory(buttonText);
   }
+  function handleAllCategory() {
+    const searchOptions = {
+      '/comidas': () => foodsRequest()
+        .then((data) => setRecipeData({ meals: data.meals })),
+      '/bebidas': () => drinksRequest()
+        .then((data) => setRecipeData({ drinks: data.drinks })),
+    };
+    return searchOptions[location.pathname]();
+  }
 
   useEffect(() => {
     const buttonsRequest = async () => {
@@ -106,6 +115,13 @@ export default function CategoryButtons() {
 
   return (
     <div>
+      <button
+        type="button"
+        onClick={ () => handleAllCategory() }
+        data-testid="All-category-filter"
+      >
+        All
+      </button>
       { recipeData && buttonsCategories ? generateCategoriesButtons() : null }
     </div>
   );
