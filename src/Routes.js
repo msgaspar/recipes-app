@@ -25,8 +25,8 @@ export default function Routes() {
         <Route path="/" exact component={ Login } />
         <Route path="/comidas" exact component={ FoodRecipes } />
         <Route path="/bebidas" exact component={ DrinkRecipes } />
-        <Route path="/comidas/:id" component={ FoodDetails } />
-        <Route path="/bebidas/:id" component={ DrinkDetails } />
+        <Route path="/comidas/:id" exact component={ FoodDetails } />
+        <Route path="/bebidas/:id" exact component={ DrinkDetails } />
         <Route path="/comidas/:id/in-progress" component={ InProcessFood } />
         <Route path="/bebidas/:id/in-progress" component={ InProcessDrink } />
         <Route path="/explorar" exact component={ Explore } />
