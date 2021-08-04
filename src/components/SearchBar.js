@@ -47,6 +47,7 @@ export default function SearchBar() {
     if (searchType !== 'firstLetter' && searchText) {
       const data = await fetchOptions[location.pathname][searchType]();
       if (!data) {
+        // eslint-disable-next-line no-alert
         return alert('Sinto muito, não encontramos nenhuma receita para esses filtros.');
       }
       return setRecipeDataOptions[location.pathname](data);
@@ -54,10 +55,12 @@ export default function SearchBar() {
     if (searchType === 'firstLetter' && searchText.length === 1) {
       const data = await fetchOptions[location.pathname][searchType]();
       if (!data) {
+        // eslint-disable-next-line no-alert
         return alert('Sinto muito, não encontramos nenhuma receita para esses filtros.');
       }
       return setRecipeDataOptions[location.pathname](data);
     }
+    // eslint-disable-next-line no-alert
     return (alert('Sua busca deve conter somente 1 (um) caracter'));
   }
 
