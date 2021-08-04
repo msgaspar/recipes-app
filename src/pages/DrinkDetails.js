@@ -4,20 +4,50 @@ import { Button, Image, Badge } from 'react-bootstrap';
 
 export default function DrinkDetails() {
   const [drinkDetails, setDrinkDetails] = useState();
+  const [drinkItems, setDrinkItems] = useState();
   const location = useLocation();
   const DRINK_DETAILS_URL = 'https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=';
-  const ingredients = [
-    'white flour',
-    'salt',
-    'yeast',
-    'butter',
-  ];
-
   const recommendedRecipes = [
     'receita 1',
     'receita 2',
     'receita 3',
   ];
+
+  function validateIfIngredient(array) {
+    if (array[0].includes('strIngredient') && array[1] !== '') {
+      return array[1];
+    }
+  }
+
+  function validateIfMeasure(array) {
+    if (array[0].includes('strMeasure') && array[1] !== '') {
+      return array[1];
+    }
+  }
+
+  function handleIngredients() {
+    const entriesFromDrinkDetails = Object.entries(drinkDetails);
+    const possibleIngredients = entriesFromDrinkDetails
+      .map((array) => validateIfIngredient(array));
+    const arrayOfIngredients = possibleIngredients.filter((ingredient) => ingredient);
+    return arrayOfIngredients;
+  }
+
+  function handleMeasures() {
+    const entriesFromDrinkDetails = Object.entries(drinkDetails);
+    const possibleIngredients = entriesFromDrinkDetails
+      .map((array) => validateIfMeasure(array));
+    const arrayOfMeasures = possibleIngredients.filter((ingredient) => ingredient);
+    return arrayOfMeasures;
+  }
+
+  function ingredientsInformation() {
+    return drinkItems
+      .map((ingredient, index) => (
+        <li key={ index } data-testid={ `${index}-ingredient-name-and-measure` }>
+          { ingredient }
+        </li>));
+  }
 
   useEffect(() => {
     const drinkRequestById = async () => {
@@ -29,31 +59,42 @@ export default function DrinkDetails() {
     drinkRequestById().then((data) => setDrinkDetails(data));
   });
 
+  useEffect(() => {
+    const handleRecipeInformation = () => {
+      const arrayOfIngredients = handleIngredients();
+      const arrayOfMeasures = handleMeasures();
+      const ingredientsAndMeasures = arrayOfIngredients
+        .map((ingredient, index) => `${ingredient} - ${arrayOfMeasures[index]}`);
+      setDrinkItems(ingredientsAndMeasures);
+    };
+
+    if (drinkDetails) {
+      handleRecipeInformation();
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [drinkDetails]);
+
   return (
     <div>
       <p>{ drinkDetails ? drinkDetails.idDrink : ''}</p>
       <Image
         fluid
-        src="https://www.themealdb.com/images/media/meals/bc8v651619789840.jpg"
+        src={ drinkDetails ? drinkDetails.strDrinkThumb : null }
         alt="Foto"
         data-testid="recipe-photo"
       />
-      <h1 data-testid="recipe-title">Nome da receita</h1>
+      <h1 data-testid="recipe-title">{ drinkDetails ? drinkDetails.strDrink : null }</h1>
       <Button data-testid="share-btn">Compartilhar</Button>
       <Button data-testid="favorite-btn">Favoritar</Button>
-      <Badge data-testid="recipe-category">Categoria</Badge>
-
+      <Badge
+        data-testid="recipe-category"
+      >
+        { drinkDetails ? drinkDetails.strAlcoholic : null}
+      </Badge>
       <div>
         <h3>Ingredients</h3>
         <ul>
-          {ingredients.map((name, index) => (
-            <li
-              key={ index }
-              data-testid={ `${index}-ingredient-name-and-measure` }
-            >
-              {name}
-            </li>
-          ))}
+          { drinkItems ? ingredientsInformation() : null }
         </ul>
       </div>
       <div>
@@ -61,7 +102,7 @@ export default function DrinkDetails() {
         <p
           data-testid="instructions"
         >
-          Aqui as instruções de como fazer essa receitinha maravilhosa
+          { drinkDetails ? drinkDetails.strInstructions : null }
         </p>
       </div>
       <div>
