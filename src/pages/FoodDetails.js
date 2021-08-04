@@ -7,7 +7,7 @@ export default function FoodDetails() {
   const [foodItems, setFoodItems] = useState();
   const location = useLocation();
   const FOOD_DETAILS_URL = 'https://www.themealdb.com/api/json/v1/1/lookup.php?i=';
-
+  const DRINK_RECOMENDATIONS = 'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=';
   const recommendedRecipes = [
     'receita 1',
     'receita 2',
@@ -57,7 +57,13 @@ export default function FoodDetails() {
       const data = await response.json();
       return data.meals[0];
     };
+    const drinkRecomendations = async () => {
+      const response = await fetch(DRINK_RECOMENDATIONS);
+      const data = await response.json();
+      return data.drinks;
+    };
     foodRequestById().then((data) => setFoodDetails(data));
+    drinkRecomendations();
   }, [setFoodDetails, location.pathname]);
 
   useEffect(() => {
