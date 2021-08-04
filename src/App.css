@@ -2,14 +2,9 @@
   width: 100%;
 }
 
-.form-check {
-  font-size: 20px;
+.ingredients-checklist input:checked + label {
+  text-decoration: line-through;
 }
-
-.form-check input {
-  margin-bottom: 4px;
-}
-
 
 .meals {
   align-items: center;
