@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useHistory, useLocation, useParams } from 'react-router-dom';
 import { Button, Image, Badge } from 'react-bootstrap';
 
 export default function DrinkDetails() {
   const [drinkDetails, setDrinkDetails] = useState();
   const [drinkItems, setDrinkItems] = useState();
+  const history = useHistory();
+  const { id } = useParams();
   const location = useLocation();
   const DRINK_DETAILS_URL = 'https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=';
   const FOOD_RECOMENDATIONS = 'https://www.themealdb.com/api/json/v1/1/search.php?s=';
@@ -48,6 +50,10 @@ export default function DrinkDetails() {
         <li key={ index } data-testid={ `${index}-ingredient-name-and-measure` }>
           { ingredient }
         </li>));
+  }
+
+  function handleStartRecipe() {
+    history.push(`/bebidas/${id}/in-progress`);
   }
 
   useEffect(() => {
@@ -125,7 +131,13 @@ export default function DrinkDetails() {
           ))}
         </ul>
       </div>
-      <Button data-testid="start-recipe-btn">Iniciar Receita</Button>
+      <Button
+        data-testid="start-recipe-btn"
+        onClick={ handleStartRecipe }
+      >
+        Iniciar Receita
+
+      </Button>
     </div>
   );
 }
