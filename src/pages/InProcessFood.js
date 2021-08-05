@@ -1,26 +1,37 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import { Container, Row, Button, Col } from 'react-bootstrap';
+import getRecipeDetails from '../services/getRecipeDetails';
 import RecipeHeader from '../components/RecipeHeader';
 import IngredientsCheckList from '../components/IngredientsCheckList';
 
 export default function InProcessFood() {
-  const ingredients = [
-    'white flour',
-    'salt',
-    'yeast',
-    'butter',
-    'queijo',
-    'feijão',
-    'peixe',
-    'ovo',
-  ];
+  const { id } = useParams();
+  const [recipeData, setRecipeData] = useState(null);
+
+  const ingredients = [];
+  if (recipeData) {
+    Object.entries(recipeData).forEach(
+      (entry) => {
+        const [key, value] = entry;
+        if (key.includes('strIngredient') && value) {
+          ingredients.push(value);
+        }
+      },
+    );
+  }
+
+  useEffect(() => {
+    getRecipeDetails(id)
+      .then((data) => setRecipeData(data));
+  }, [id]);
 
   return (
     <Container>
       <RecipeHeader
-        imgUrl="https://www.themealdb.com/images/media/meals/bc8v651619789840.jpg"
-        title="Nome receita"
-        category="Árabe"
+        imgUrl={ recipeData ? recipeData.strMealThumb : '' }
+        title={ recipeData ? recipeData.strMeal : '' }
+        category={ recipeData ? recipeData.strCategory : '' }
       />
       <IngredientsCheckList ingredients={ ingredients } />
       <div>

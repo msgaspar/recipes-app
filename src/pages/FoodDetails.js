@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
-import { Image, Button, Badge } from 'react-bootstrap';
+import { useLocation, useHistory, useParams } from 'react-router-dom';
+import { Button } from 'react-bootstrap';
+import RecipeHeader from '../components/RecipeHeader';
 
 export default function FoodDetails() {
   const [foodDetails, setFoodDetails] = useState();
   const [foodItems, setFoodItems] = useState();
   const location = useLocation();
+  const history = useHistory();
+  const { id } = useParams();
   const FOOD_DETAILS_URL = 'https://www.themealdb.com/api/json/v1/1/lookup.php?i=';
   const DRINK_RECOMENDATIONS = 'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=';
   const recommendedRecipes = [
@@ -50,6 +53,10 @@ export default function FoodDetails() {
         </li>));
   }
 
+  function handleStartRecipe() {
+    history.push(`/comidas/${id}/in-progress`);
+  }
+
   useEffect(() => {
     const foodRequestById = async () => {
       const foodId = location.pathname.split('/')[2];
@@ -83,20 +90,11 @@ export default function FoodDetails() {
 
   return (
     <div>
-      <Image
-        fluid
-        src={ foodDetails ? foodDetails.strMealThumb : null }
-        alt="Foto"
-        data-testid="recipe-photo"
+      <RecipeHeader
+        category={ foodDetails ? foodDetails.strCategory : null }
+        imgUrl={ foodDetails ? foodDetails.strMealThumb : null }
+        title={ foodDetails ? foodDetails.strMeal : null }
       />
-      <h1 data-testid="recipe-title">{ foodDetails ? foodDetails.strMeal : null }</h1>
-      <Button data-testid="share-btn">Compartilhar</Button>
-      <Button data-testid="favorite-btn">Favoritar</Button>
-      <Badge
-        data-testid="recipe-category"
-      >
-        { foodDetails ? foodDetails.strCategory : null}
-      </Badge>
       <div>
         <h3>Ingredients</h3>
         <ul>
@@ -132,7 +130,10 @@ export default function FoodDetails() {
           ))}
         </ul>
       </div>
-      <Button data-testid="start-recipe-btn">
+      <Button
+        data-testid="start-recipe-btn"
+        onClick={ handleStartRecipe }
+      >
         Iniciar Receita
       </Button>
     </div>
