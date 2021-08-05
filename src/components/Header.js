@@ -36,9 +36,9 @@ export default function Header({ title, showSearchIcon }) {
                 textAlign: 'center',
               } }
               onClick={ toggleSearchBar }
-              data-testid="search-top-btn"
             >
               <img
+                data-testid="search-top-btn"
                 src={ SearchIcon }
                 alt="buscar receita"
               />
