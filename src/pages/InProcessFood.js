@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Container, Row, Button, Col } from 'react-bootstrap';
-import getRecipeDetails from '../services/getRecipeDetails';
+import { getFoodRecipeDetails } from '../services/getRecipeDetails';
 import RecipeHeader from '../components/RecipeHeader';
 import IngredientsCheckList from '../components/IngredientsCheckList';
+import useLocalStorage from '../hooks/useLocalStorage';
 
 export default function InProcessFood() {
   const { id } = useParams();
@@ -21,14 +22,36 @@ export default function InProcessFood() {
     );
   }
 
+  const [favoriteRecipes, setFavoriteRecipes] = useLocalStorage('favoriteRecipes', []);
+  const isFavorite = favoriteRecipes.some((recipe) => recipe.id === id);
+
+  function handleToggleFavorite() {
+    if (isFavorite) {
+      const newFavoriteRecipes = favoriteRecipes.filter((recipe) => recipe.id !== id);
+      setFavoriteRecipes(newFavoriteRecipes);
+    } else {
+      setFavoriteRecipes([...favoriteRecipes, {
+        id,
+        type: 'comida',
+        area: recipeData.strArea,
+        category: recipeData.strCategory,
+        name: recipeData.strMeal,
+        image: recipeData.strMealThumb,
+        alcoholicOrNot: '',
+      }]);
+    }
+  }
+
   useEffect(() => {
-    getRecipeDetails(id)
+    getFoodRecipeDetails(id)
       .then((data) => setRecipeData(data));
   }, [id]);
 
   return (
     <Container>
       <RecipeHeader
+        isFavorite={ isFavorite }
+        toggleFavorite={ handleToggleFavorite }
         imgUrl={ recipeData ? recipeData.strMealThumb : '' }
         title={ recipeData ? recipeData.strMeal : '' }
         category={ recipeData ? recipeData.strCategory : '' }
