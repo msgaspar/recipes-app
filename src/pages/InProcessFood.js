@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useHistory } from 'react-router-dom';
 import { Container, Row, Button, Col } from 'react-bootstrap';
 import { getFoodRecipeDetails } from '../services/getRecipeDetails';
 import RecipeHeader from '../components/RecipeHeader';
@@ -8,7 +8,9 @@ import useLocalStorage from '../hooks/useLocalStorage';
 
 export default function InProcessFood() {
   const { id } = useParams();
+  const history = useHistory();
   const [recipeData, setRecipeData] = useState(null);
+  const [allIngredientsChecked, setAllIngredientsChecked] = useState(false);
 
   const ingredients = [];
   if (recipeData) {
@@ -56,7 +58,10 @@ export default function InProcessFood() {
         title={ recipeData ? recipeData.strMeal : '' }
         category={ recipeData ? recipeData.strCategory : '' }
       />
-      <IngredientsCheckList ingredients={ ingredients } />
+      <IngredientsCheckList
+        ingredients={ ingredients }
+        setAllIngredientsChecked={ setAllIngredientsChecked }
+      />
       <div>
         <h3>Instructions</h3>
         <p
@@ -70,6 +75,8 @@ export default function InProcessFood() {
       <Row>
         <Col className="d-flex justify-content-center">
           <Button
+            disabled={ !allIngredientsChecked }
+            onClick={ () => history.push('/receitas-feitas') }
             className="w-100 my-3 py-2"
             style={ {
               fontSize: '20px',

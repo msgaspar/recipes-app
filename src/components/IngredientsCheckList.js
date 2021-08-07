@@ -4,13 +4,11 @@ import { useParams } from 'react-router-dom';
 import { Form } from 'react-bootstrap';
 import useLocalStorage from '../hooks/useLocalStorage';
 
-function IngredientsCheckList({ ingredients }) {
+function IngredientsCheckList({ ingredients, setAllIngredientsChecked }) {
   const { id } = useParams();
   const [storedData, setStoredData] = useLocalStorage('inProgressRecipes', {
     cocktails: {},
-    meals: {
-      52785: ['Water'],
-    },
+    meals: {},
   });
 
   let checkedIngredients = [];
@@ -31,6 +29,15 @@ function IngredientsCheckList({ ingredients }) {
     const newStoredData = { ...storedData };
     newStoredData.meals[id] = [...checkedIngredients];
     setStoredData(newStoredData);
+
+    console.log(ingredients);
+    console.log(checkedIngredients);
+
+    if (ingredients.length === checkedIngredients.length) {
+      setAllIngredientsChecked(true);
+    } else {
+      setAllIngredientsChecked(false);
+    }
   }
 
   return (
@@ -69,6 +76,7 @@ function IngredientsCheckList({ ingredients }) {
 
 IngredientsCheckList.propTypes = {
   ingredients: PropTypes.arrayOf(PropTypes.string).isRequired,
+  setAllIngredientsChecked: PropTypes.func.isRequired,
 };
 
 export default IngredientsCheckList;
