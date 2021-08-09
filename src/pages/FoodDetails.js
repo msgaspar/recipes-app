@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation, useHistory, useParams } from 'react-router-dom';
-import { Image, Button, Badge } from 'react-bootstrap';
-import DrinkRecommends from '../components/DrinkRecommends';
 import { Button } from 'react-bootstrap';
+import DrinkRecommends from '../components/DrinkRecommends';
 import RecipeHeader from '../components/RecipeHeader';
 
 export default function FoodDetails() {
