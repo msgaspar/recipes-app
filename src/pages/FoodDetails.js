@@ -4,6 +4,8 @@ import { Button } from 'react-bootstrap';
 import DrinkRecommends from '../components/DrinkRecommends';
 import RecipeHeader from '../components/RecipeHeader';
 
+import '../styles/StartRecipe.css';
+
 export default function FoodDetails() {
   const [foodDetails, setFoodDetails] = useState();
   const [foodItems, setFoodItems] = useState();
@@ -118,12 +120,15 @@ export default function FoodDetails() {
         <h3>Receitas recomendadas</h3>
         <DrinkRecommends recommends={ drinksRecommends } />
       </div>
-      <Button
-        data-testid="start-recipe-btn"
-        onClick={ handleStartRecipe }
-      >
-        Iniciar Receita
-      </Button>
+      <div className="start-recipe-wrapper d-grid gap-2">
+        <Button
+          data-testid="start-recipe-btn"
+          onClick={ handleStartRecipe }
+          size="lg"
+        >
+          Iniciar Receita
+        </Button>
+      </div>
     </div>
   );
 }

@@ -3,6 +3,8 @@ import { useHistory, useLocation, useParams } from 'react-router-dom';
 import { Button, Image, Badge } from 'react-bootstrap';
 import FoodRecommends from '../components/FoodRecommends';
 
+import '../styles/StartRecipe.css';
+
 export default function DrinkDetails() {
   const [drinkDetails, setDrinkDetails] = useState();
   const [drinkItems, setDrinkItems] = useState();
@@ -119,13 +121,15 @@ export default function DrinkDetails() {
         <h3>Receitas recomendadas</h3>
         <FoodRecommends recommends={ foodsRecommends } />
       </div>
-      <Button
-        data-testid="start-recipe-btn"
-        onClick={ handleStartRecipe }
-      >
-        Iniciar Receita
-
-      </Button>
+      <div className="start-recipe-wrapper d-grid gap-2">
+        <Button
+          data-testid="start-recipe-btn"
+          onClick={ handleStartRecipe }
+          size="lg"
+        >
+          Iniciar Receita
+        </Button>
+      </div>
     </div>
   );
 }
