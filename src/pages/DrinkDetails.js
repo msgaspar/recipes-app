@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useHistory, useLocation, useParams } from 'react-router-dom';
 import { Button, Image, Badge } from 'react-bootstrap';
 import FoodRecommends from '../components/FoodRecommends';
 
@@ -8,6 +8,8 @@ export default function DrinkDetails() {
   const [drinkItems, setDrinkItems] = useState();
   const [foodsRecommends, setFoodsRecommends] = useState();
   const location = useLocation();
+  const history = useHistory();
+  const { id } = useParams();
   const DRINK_DETAILS_URL = 'https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=';
   const FOOD_RECOMMENDS = 'https://www.themealdb.com/api/json/v1/1/search.php?s=';
 
@@ -47,6 +49,10 @@ export default function DrinkDetails() {
         </li>));
   }
 
+  function handleStartRecipe() {
+    history.push(`/bebidas/${id}/in-progress`);
+  }
+
   useEffect(() => {
     const drinkRequestById = async () => {
       const foodId = location.pathname.split('/')[2];
@@ -54,6 +60,7 @@ export default function DrinkDetails() {
       const data = await response.json();
       return data.drinks[0];
     };
+
     const foodRecommends = async () => {
       const response = await fetch(FOOD_RECOMMENDS);
       const data = await response.json();
@@ -112,7 +119,13 @@ export default function DrinkDetails() {
         <h3>Receitas recomendadas</h3>
         <FoodRecommends recommends={ foodsRecommends } />
       </div>
-      <Button data-testid="start-recipe-btn">Iniciar Receita</Button>
+      <Button
+        data-testid="start-recipe-btn"
+        onClick={ handleStartRecipe }
+      >
+        Iniciar Receita
+
+      </Button>
     </div>
   );
 }
