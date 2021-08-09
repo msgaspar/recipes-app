@@ -1,21 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation, useHistory, useParams } from 'react-router-dom';
 import { Button } from 'react-bootstrap';
+import DrinkRecommends from '../components/DrinkRecommends';
 import RecipeHeader from '../components/RecipeHeader';
 
 export default function FoodDetails() {
   const [foodDetails, setFoodDetails] = useState();
   const [foodItems, setFoodItems] = useState();
+  const [drinksRecommends, setDrinksRecommends] = useState();
   const location = useLocation();
   const history = useHistory();
   const { id } = useParams();
   const FOOD_DETAILS_URL = 'https://www.themealdb.com/api/json/v1/1/lookup.php?i=';
-  const DRINK_RECOMENDATIONS = 'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=';
-  const recommendedRecipes = [
-    'receita 1',
-    'receita 2',
-    'receita 3',
-  ];
+  const DRINK_RECOMMENDS = 'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=';
 
   function validateIfIngredient(array) {
     if (array[0].includes('strIngredient') && array[1] !== '') {
@@ -64,13 +61,13 @@ export default function FoodDetails() {
       const data = await response.json();
       return data.meals[0];
     };
-    const drinkRecomendations = async () => {
-      const response = await fetch(DRINK_RECOMENDATIONS);
+    const drinkRecommends = async () => {
+      const response = await fetch(DRINK_RECOMMENDS);
       const data = await response.json();
       return data.drinks;
     };
     foodRequestById().then((data) => setFoodDetails(data));
-    drinkRecomendations();
+    drinkRecommends().then((data) => setDrinksRecommends(data));
   }, [setFoodDetails, location.pathname]);
 
   useEffect(() => {
@@ -119,16 +116,7 @@ export default function FoodDetails() {
       />
       <div>
         <h3>Receitas recomendadas</h3>
-        <ul>
-          {recommendedRecipes.map((name, index) => (
-            <li
-              key={ index }
-              data-testid={ `${index}-recomendation-card` }
-            >
-              {name}
-            </li>
-          ))}
-        </ul>
+        <DrinkRecommends recommends={ drinksRecommends } />
       </div>
       <Button
         data-testid="start-recipe-btn"
