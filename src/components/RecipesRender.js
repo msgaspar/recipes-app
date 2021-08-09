@@ -101,10 +101,7 @@ export default function RecipesRender() {
   return (
     <div className="cards-wrapper">
       <CategoryButtons />
-      { location.pathname === '/comidas'
-        ? handleFoodPage() : null }
-      { location.pathname === '/bebidas'
-        ? handleDrinkPage() : null }
+      { location.pathname === '/comidas' ? handleFoodPage() : handleDrinkPage() }
     </div>
   );
 }

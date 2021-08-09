@@ -1,18 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { Button, Image, Badge } from 'react-bootstrap';
+import FoodRecommends from '../components/FoodRecommends';
 
 export default function DrinkDetails() {
   const [drinkDetails, setDrinkDetails] = useState();
   const [drinkItems, setDrinkItems] = useState();
+  const [foodsRecommends, setFoodsRecommends] = useState();
   const location = useLocation();
   const DRINK_DETAILS_URL = 'https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=';
-  const FOOD_RECOMENDATIONS = 'https://www.themealdb.com/api/json/v1/1/search.php?s=';
-  const recommendedRecipes = [
-    'receita 1',
-    'receita 2',
-    'receita 3',
-  ];
+  const FOOD_RECOMMENDS = 'https://www.themealdb.com/api/json/v1/1/search.php?s=';
 
   function validateIfIngredient(array) {
     if (array[0].includes('strIngredient') && array[1] !== '') {
@@ -57,14 +54,14 @@ export default function DrinkDetails() {
       const data = await response.json();
       return data.drinks[0];
     };
-    const foodRecomendations = async () => {
-      const response = await fetch(FOOD_RECOMENDATIONS);
+    const foodRecommends = async () => {
+      const response = await fetch(FOOD_RECOMMENDS);
       const data = await response.json();
-      return data.drinks;
+      return data.meals;
     };
     drinkRequestById().then((data) => setDrinkDetails(data));
-    foodRecomendations();
-  });
+    foodRecommends().then((data) => setFoodsRecommends(data));
+  }, [setDrinkDetails, location.pathname]);
 
   useEffect(() => {
     const handleRecipeInformation = () => {
@@ -83,7 +80,6 @@ export default function DrinkDetails() {
 
   return (
     <div>
-      <p>{ drinkDetails ? drinkDetails.idDrink : ''}</p>
       <Image
         fluid
         src={ drinkDetails ? drinkDetails.strDrinkThumb : null }
@@ -114,16 +110,7 @@ export default function DrinkDetails() {
       </div>
       <div>
         <h3>Receitas recomendadas</h3>
-        <ul>
-          {recommendedRecipes.map((name, index) => (
-            <li
-              key={ index }
-              data-testid={ `${index}-recomendation-card` }
-            >
-              {name}
-            </li>
-          ))}
-        </ul>
+        <FoodRecommends recommends={ foodsRecommends } />
       </div>
       <Button data-testid="start-recipe-btn">Iniciar Receita</Button>
     </div>
