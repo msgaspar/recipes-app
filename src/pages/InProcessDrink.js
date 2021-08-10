@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { useHistory, useParams } from 'react-router-dom';
-import { Container, Row, Col, Button } from 'react-bootstrap';
+import { useParams } from 'react-router-dom';
+import { Container } from 'react-bootstrap';
 import useLocalStorage from '../hooks/useLocalStorage';
 import { getDrinkRecipeDetails } from '../services/getRecipeDetails';
 import RecipeHeader from '../components/RecipeHeader';
 import IngredientsCheckList from '../components/IngredientsCheckList';
+import FinishDrinkRecipe from '../components/FinishDrinkRecipe';
 
 export default function InProcessDrink() {
   const { id } = useParams();
-  const history = useHistory();
   const [recipeData, setRecipeData] = useState(null);
   const [allIngredientsChecked, setAllIngredientsChecked] = useState(false);
 
@@ -71,22 +71,10 @@ export default function InProcessDrink() {
           {recipeData ? recipeData.strInstructions : ''}
         </p>
       </div>
-
-      <Row>
-        <Col className="d-flex justify-content-center">
-          <Button
-            disabled={ !allIngredientsChecked }
-            onClick={ () => history.push('/receitas-feitas') }
-            className="w-100 my-3 py-2"
-            style={ {
-              fontSize: '20px',
-            } }
-            data-testid="finish-recipe-btn"
-          >
-            Finalizar Receita
-          </Button>
-        </Col>
-      </Row>
+      <FinishDrinkRecipe
+        checkIngredients={ allIngredientsChecked }
+        recipeData={ recipeData }
+      />
     </Container>
   );
 }

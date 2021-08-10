@@ -49,6 +49,17 @@ export default function InProcessFood() {
       .then((data) => setRecipeData(data));
   }, [id]);
 
+  function endRecipe() {
+    if (localStorage.getItem('doneRecipes')) {
+      const currentLocalStorage = JSON.parse(localStorage.getItem('doneRecipes'));
+      const newLocalStorage = [...currentLocalStorage, id];
+      history.push('/receitas-feitas');
+      localStorage.setItem('doneRecipes', JSON.stringify(newLocalStorage));
+      return;
+    } localStorage.setItem('doneRecipes', JSON.stringify([id]));
+    history.push('/receitas-feitas');
+  }
+
   return (
     <Container>
       <RecipeHeader
@@ -76,7 +87,7 @@ export default function InProcessFood() {
         <Col className="d-flex justify-content-center">
           <Button
             disabled={ !allIngredientsChecked }
-            onClick={ () => history.push('/receitas-feitas') }
+            onClick={ () => endRecipe() }
             className="w-100 my-3 py-2"
             style={ {
               fontSize: '20px',
