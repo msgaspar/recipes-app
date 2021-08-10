@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import { Button } from 'react-bootstrap';
 
-export default function StartDrinkRecipes() {
+export default function StartFoodRecipes() {
   const history = useHistory();
   const { id } = useParams();
   const [doneRecipes, setDoneRecipes] = useState();
@@ -11,16 +11,16 @@ export default function StartDrinkRecipes() {
   const [buttonText, setButtonText] = useState('Iniciar Receita');
 
   useEffect(() => {
-    const doneDrinkRecipes = JSON.parse(localStorage.getItem('doneRecipes'));
+    const doneFoodRecipes = JSON.parse(localStorage.getItem('doneRecipes'));
     const inProgressRecipes = JSON.parse(localStorage.getItem('inProgressRecipes'));
 
-    if (doneDrinkRecipes) {
-      const doneRecipesId = doneDrinkRecipes.map((recipe) => recipe.id);
+    if (doneFoodRecipes) {
+      const doneRecipesId = doneFoodRecipes.map((recipe) => recipe.id);
       setDoneRecipes(doneRecipesId);
     }
 
     if (inProgressRecipes) {
-      const inProgressIds = Object.keys(inProgressRecipes.cocktails);
+      const inProgressIds = Object.keys(inProgressRecipes.meals);
       setRecipesInProgress(inProgressIds);
     }
   }, []);
@@ -39,18 +39,18 @@ export default function StartDrinkRecipes() {
     };
 
     if (doneRecipes) {
-      const isRecipeDone = doneRecipes.some((drinkId) => drinkId === id);
+      const isRecipeDone = doneRecipes.some((foodId) => foodId === id);
       buttonStartOptions[isRecipeDone]();
     }
 
     if (recipesInProgress) {
-      const isRecipeInProgress = recipesInProgress.some((drinkId) => drinkId === id);
+      const isRecipeInProgress = recipesInProgress.some((foodId) => foodId === id);
       buttonContinueOptions[isRecipeInProgress]();
     }
   }, [doneRecipes, recipesInProgress]);
 
   function handleStartRecipe() {
-    history.push(`/bebidas/${id}/in-progress`);
+    history.push(`/comidas/${id}/in-progress`);
   }
 
   return (

@@ -87,11 +87,11 @@ function RecipeHeader({ imgUrl, title, category, isFavorite, toggleFavorite }) {
 }
 
 RecipeHeader.propTypes = {
-  isFavorite: PropTypes.bool.isRequired,
-  toggleFavorite: PropTypes.func.isRequired,
-  imgUrl: PropTypes.string.isRequired,
-  title: PropTypes.string.isRequired,
-  category: PropTypes.string.isRequired,
-};
+  isFavorite: PropTypes.bool,
+  toggleFavorite: PropTypes.func,
+  imgUrl: PropTypes.string,
+  title: PropTypes.string,
+  category: PropTypes.string,
+}.isRequired;
 
 export default RecipeHeader;

@@ -3,7 +3,7 @@ import { useHistory } from 'react-router-dom';
 import { Row, Col, Button } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 
-export default function FinishDrinkRecipe({ checkIngredients, recipeData }) {
+export default function FinishFoodRecipe({ checkIngredients, recipeData }) {
   const history = useHistory();
   // const today = new Date();
   // const currentDay = String(today.getDate()).padStart(2, '0');
@@ -13,17 +13,17 @@ export default function FinishDrinkRecipe({ checkIngredients, recipeData }) {
 
   function removeFoodFromInProgress(id) {
     const inProgressRecipes = JSON.parse(localStorage.getItem('inProgressRecipes'));
-    delete inProgressRecipes.cocktails[id];
+    delete inProgressRecipes.meals[id];
     localStorage.setItem('inProgressRecipes', JSON.stringify(inProgressRecipes));
   }
 
   function endRecipe() {
     const {
-      idDrink: id,
+      idMeal: id,
+      strArea: area,
       strCategory: category,
-      strAlcoholic: alcoholicOrNot,
-      strDrink: name,
-      strDrinkThumb: image,
+      strMeal: name,
+      strMealThumb: image,
       strTags: tags,
     } = recipeData;
 
@@ -33,13 +33,13 @@ export default function FinishDrinkRecipe({ checkIngredients, recipeData }) {
       const currentLocalStorage = JSON.parse(localStorage.getItem('doneRecipes'));
       const newLocalStorage = [...currentLocalStorage, {
         id,
-        type: 'bebida',
-        area: '',
+        type: 'comida',
+        area,
         category,
-        alcoholicOrNot,
+        alcoholicOrNot: '',
         name,
         image,
-        doneDate: '23/6/2020',
+        doneDate: '22/6/2020',
         tags: tags ? [...tags] : [],
       }];
       localStorage.setItem('doneRecipes', JSON.stringify(newLocalStorage));
@@ -47,13 +47,13 @@ export default function FinishDrinkRecipe({ checkIngredients, recipeData }) {
       return;
     } localStorage.setItem('doneRecipes', JSON.stringify([{
       id,
-      type: 'bebida',
-      area: '',
+      type: 'comida',
+      area,
       category,
-      alcoholicOrNot,
+      alcoholicOrNot: '',
       name,
       image,
-      doneDate: '23/6/2020',
+      doneDate: '22/6/2020',
       tags: tags ? [...tags] : [],
     }]));
     history.push('/receitas-feitas');
@@ -78,6 +78,6 @@ export default function FinishDrinkRecipe({ checkIngredients, recipeData }) {
   );
 }
 
-FinishDrinkRecipe.propTypes = {
+FinishFoodRecipe.propTypes = {
   checkIngredients: PropTypes.bool,
 }.isRequired;

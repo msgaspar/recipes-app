@@ -5,6 +5,7 @@ import RecipeHeader from '../components/RecipeHeader';
 
 import '../styles/StartRecipe.css';
 import StartDrinkRecipes from '../components/StartDrinkRecipes';
+import StartFoodRecipes from '../components/StartFoodRecipes';
 
 export default function FoodDetails() {
   const [foodDetails, setFoodDetails] = useState();
@@ -114,7 +115,7 @@ export default function FoodDetails() {
         <h3>Receitas recomendadas</h3>
         <DrinkRecommends recommends={ drinksRecommends } />
       </div>
-      <StartDrinkRecipes />
+      <StartFoodRecipes />
     </div>
   );
 }
