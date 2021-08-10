@@ -4,6 +4,7 @@ import copy from 'clipboard-copy';
 import profileIcon from '../images/profileIcon.svg';
 import shareIcon from '../images/shareIcon.svg';
 import '../DoneRecipes.css';
+import Header from '../components/Header';
 
 export default function DoneRecipes() {
   const doneRecipes = JSON.parse(localStorage.getItem('doneRecipes')) || [];
@@ -26,15 +27,8 @@ export default function DoneRecipes() {
 
   return (
     <div>
-      <header>
-        <Link to="/perfil">
-          <button type="button">
-            <img src={ profileIcon } alt="profileIcon" />
-          </button>
-        </Link>
-        <h1>Receitas Feitas</h1>
-        <p>{copyText}</p>
-      </header>
+      <Header title="Receitas Feitas" />
+      <p>{copyText}</p>
       <section>
         <button
           className="buttons"
