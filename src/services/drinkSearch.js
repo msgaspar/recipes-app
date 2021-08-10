@@ -25,3 +25,9 @@ export const randomDrinkRequest = async () => {
   const data = await response.json();
   return data.drinks[0].idDrink;
 };
+
+export const fetchIngredientsDrink = () => (
+  fetch('https://www.thecocktaildb.com/api/json/v1/1/list.php?i=list')
+    .then((res) => res.json())
+    .then((response) => response)
+);

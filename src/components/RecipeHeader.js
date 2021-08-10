@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { useParams } from 'react-router-dom';
+import { useParams, useLocation } from 'react-router-dom';
 import { Image, Button, Badge, Row, Col, Container } from 'react-bootstrap';
 import useLocalStorage from '../hooks/useLocalStorage';
 import WhiteHeartIcon from '../images/whiteHeartIcon.svg';
@@ -9,6 +9,7 @@ import CopyLinkButton from './CopyLinkButton';
 
 function RecipeHeader({ imgUrl, category, name, type, area, alcoholicOrNot }) {
   const { id } = useParams();
+  const location = useLocation();
   const [favoriteRecipes, setFavoriteRecipes] = useLocalStorage('favoriteRecipes', []);
   const isFavorite = favoriteRecipes.some((recipe) => recipe.id === id);
 
@@ -27,6 +28,13 @@ function RecipeHeader({ imgUrl, category, name, type, area, alcoholicOrNot }) {
         alcoholicOrNot,
       }]);
     }
+  }
+
+  function handleCategoryByRoute() {
+    const currentRoute = location.pathname.split('/')[1];
+    if (currentRoute === 'comidas') {
+      return category;
+    } return alcoholicOrNot;
   }
 
   return (
@@ -51,7 +59,7 @@ function RecipeHeader({ imgUrl, category, name, type, area, alcoholicOrNot }) {
               variant="secondary"
               data-testid="recipe-category"
             >
-              {category}
+              {handleCategoryByRoute()}
             </Badge>
           </h5>
         </Col>

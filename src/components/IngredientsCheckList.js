@@ -1,11 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { useParams } from 'react-router-dom';
+import { useParams, useLocation } from 'react-router-dom';
 import { Form } from 'react-bootstrap';
 import useLocalStorage from '../hooks/useLocalStorage';
 
 function IngredientsCheckList({ ingredients, setAllIngredientsChecked }) {
   const { id } = useParams();
+  const location = useLocation();
+  const recipeType = location.pathname.split('/')[1];
   const [storedData, setStoredData] = useLocalStorage('inProgressRecipes', {
     cocktails: {},
     meals: {},
@@ -14,6 +16,10 @@ function IngredientsCheckList({ ingredients, setAllIngredientsChecked }) {
   let checkedIngredients = [];
   if (storedData.meals[id]) {
     checkedIngredients = storedData.meals[id];
+  }
+
+  if (storedData.cocktails[id]) {
+    checkedIngredients = storedData.cocktails[id];
   }
 
   function isIngredientChecked(name) {
@@ -26,12 +32,17 @@ function IngredientsCheckList({ ingredients, setAllIngredientsChecked }) {
     } else {
       checkedIngredients = checkedIngredients.filter((name) => name !== target.name);
     }
-    const newStoredData = { ...storedData };
-    newStoredData.meals[id] = [...checkedIngredients];
-    setStoredData(newStoredData);
 
-    console.log(ingredients);
-    console.log(checkedIngredients);
+    if (recipeType === 'comidas') {
+      const newStoredData = { ...storedData };
+      newStoredData.meals[id] = [...checkedIngredients];
+      setStoredData(newStoredData);
+    }
+    if (recipeType === 'bebidas') {
+      const newStoredData = { ...storedData };
+      newStoredData.cocktails[id] = [...checkedIngredients];
+      setStoredData(newStoredData);
+    }
 
     if (ingredients.length === checkedIngredients.length) {
       setAllIngredientsChecked(true);

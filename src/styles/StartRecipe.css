@@ -3,3 +3,11 @@
   position: fixed;
   width: 100%;
 }
+
+.visible {
+  visibility: visible;
+}
+
+.invisible {
+  visibility: hidden;
+}

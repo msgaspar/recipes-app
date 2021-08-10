@@ -9,6 +9,5 @@ export async function getDrinkRecipeDetails(id) {
   const URL = `https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${id}`;
   const response = await fetch(URL);
   const data = await response.json();
-  console.log(data);
   return data.drinks[0];
 }
