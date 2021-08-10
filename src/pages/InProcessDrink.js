@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { Container } from 'react-bootstrap';
-import useLocalStorage from '../hooks/useLocalStorage';
 import { getDrinkRecipeDetails } from '../services/getRecipeDetails';
 import RecipeHeader from '../components/RecipeHeader';
 import IngredientsCheckList from '../components/IngredientsCheckList';
@@ -24,26 +23,6 @@ export default function InProcessDrink() {
     );
   }
 
-  const [favoriteRecipes, setFavoriteRecipes] = useLocalStorage('favoriteRecipes', []);
-  const isFavorite = favoriteRecipes.some((recipe) => recipe.id === id);
-
-  function handleToggleFavorite() {
-    if (isFavorite) {
-      const newFavoriteRecipes = favoriteRecipes.filter((recipe) => recipe.id !== id);
-      setFavoriteRecipes(newFavoriteRecipes);
-    } else {
-      setFavoriteRecipes([...favoriteRecipes, {
-        id,
-        type: 'bebida',
-        alcoholicOrNot: recipeData.strAlcoholic,
-        category: recipeData.strCategory,
-        name: recipeData.strDrink,
-        image: recipeData.strDrinkThumb,
-        area: '',
-      }]);
-    }
-  }
-
   useEffect(() => {
     getDrinkRecipeDetails(id)
       .then((data) => setRecipeData(data));
@@ -52,11 +31,11 @@ export default function InProcessDrink() {
   return (
     <Container>
       <RecipeHeader
-        isFavorite={ isFavorite }
-        toggleFavorite={ handleToggleFavorite }
-        imgUrl={ recipeData ? recipeData.strDrinkThumb : '' }
-        title={ recipeData ? recipeData.strDrink : '' }
-        category={ recipeData ? recipeData.strCategory : '' }
+        alcoholicOrNot={ recipeData && recipeData.strAlcoholic }
+        imgUrl={ recipeData && recipeData.strDrinkThumb }
+        name={ recipeData && recipeData.strDrink }
+        category={ recipeData && recipeData.strCategory }
+        type="bebida"
       />
       <IngredientsCheckList
         ingredients={ ingredients }

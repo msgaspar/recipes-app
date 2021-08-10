@@ -4,7 +4,6 @@ import DrinkRecommends from '../components/DrinkRecommends';
 import RecipeHeader from '../components/RecipeHeader';
 
 import '../styles/StartRecipe.css';
-import StartDrinkRecipes from '../components/StartDrinkRecipes';
 import StartFoodRecipes from '../components/StartFoodRecipes';
 
 export default function FoodDetails() {
@@ -85,9 +84,11 @@ export default function FoodDetails() {
   return (
     <div>
       <RecipeHeader
-        category={ foodDetails ? foodDetails.strCategory : null }
-        imgUrl={ foodDetails ? foodDetails.strMealThumb : null }
-        title={ foodDetails ? foodDetails.strMeal : null }
+        category={ foodDetails && foodDetails.strCategory }
+        imgUrl={ foodDetails && foodDetails.strMealThumb }
+        name={ foodDetails && foodDetails.strMeal }
+        type="comida"
+        area={ foodDetails && foodDetails.strArea }
       />
       <div>
         <h3>Ingredients</h3>
