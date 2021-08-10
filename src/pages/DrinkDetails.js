@@ -91,9 +91,11 @@ export default function DrinkDetails() {
   return (
     <div>
       <RecipeHeader
-        category={ drinkDetails ? drinkDetails.strAlcoholic : null }
-        imgUrl={ drinkDetails ? drinkDetails.strDrinkThumb : null }
-        title={ drinkDetails ? drinkDetails.strDrink : null }
+        alcoholicOrNot={ drinkDetails && drinkDetails.strAlcoholic }
+        imgUrl={ drinkDetails && drinkDetails.strDrinkThumb }
+        name={ drinkDetails && drinkDetails.strDrink }
+        category={ drinkDetails && drinkDetails.strCategory }
+        type="bebida"
       />
       <div>
         <h3>Ingredients</h3>
