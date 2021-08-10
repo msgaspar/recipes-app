@@ -51,7 +51,7 @@ export default function InProcessFood() {
         </p>
       </div>
       <FinishFoodRecipe
-        checkInGredients={ allIngredientsChecked }
+        checkIngredients={ allIngredientsChecked }
         recipeData={ recipeData }
       />
     </Container>
