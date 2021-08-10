@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { Image, Button } from 'react-bootstrap';
 import copy from 'clipboard-copy';
 import shareIcon from '../images/shareIcon.svg';
