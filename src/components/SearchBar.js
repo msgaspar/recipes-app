@@ -34,8 +34,8 @@ export default function SearchBar() {
   };
 
   const setRecipeDataOptions = {
-    '/comidas': (foodRecipe) => setRecipeData({ meals: foodRecipe.meals }),
-    '/bebidas': (foodRecipe) => setRecipeData({ drinks: foodRecipe.drinks }),
+    '/comidas': (foodRecipe) => setRecipeData([...foodRecipe]),
+    '/bebidas': (foodRecipe) => setRecipeData([...foodRecipe]),
   };
 
   function handleTextSearch(target) {
@@ -46,18 +46,21 @@ export default function SearchBar() {
   async function handleSearch() {
     if (searchType !== 'firstLetter' && searchText) {
       const data = await fetchOptions[location.pathname][searchType]();
-      if (!data.meals && !data.drinks) {
+      if (!data) {
+        // eslint-disable-next-line no-alert
         return alert('Sinto muito, não encontramos nenhuma receita para esses filtros.');
       }
       return setRecipeDataOptions[location.pathname](data);
     }
     if (searchType === 'firstLetter' && searchText.length === 1) {
       const data = await fetchOptions[location.pathname][searchType]();
-      if (!data.meals && !data.drinks) {
+      if (!data) {
+        // eslint-disable-next-line no-alert
         return alert('Sinto muito, não encontramos nenhuma receita para esses filtros.');
       }
       return setRecipeDataOptions[location.pathname](data);
     }
+    // eslint-disable-next-line no-alert
     return (alert('Sua busca deve conter somente 1 (um) caracter'));
   }
 

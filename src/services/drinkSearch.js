@@ -2,14 +2,14 @@ export async function searchDrinkByIngredient(ingredient) {
   const URL = `https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=${ingredient}`;
   const response = await fetch(URL);
   const data = await response.json();
-  return data;
+  return data.drinks;
 }
 
 export async function searchDrinkByName(drinkName) {
   const URL = `https://www.thecocktaildb.com/api/json/v1/1/search.php?s=${drinkName}`;
   const response = await fetch(URL);
   const data = await response.json();
-  return data;
+  return data.drinks;
 }
 
 export async function searchDrinkByFirstLetter(word) {
@@ -17,5 +17,11 @@ export async function searchDrinkByFirstLetter(word) {
   const URL = `https://www.thecocktaildb.com/api/json/v1/1/search.php?f=${firstLetter}`;
   const response = await fetch(URL);
   const data = await response.json();
-  return data;
+  return data.drinks;
 }
+
+export const randomDrinkRequest = async () => {
+  const response = await fetch('https://www.thecocktaildb.com/api/json/v1/1/random.php');
+  const data = await response.json();
+  return data.drinks[0].idDrink;
+};

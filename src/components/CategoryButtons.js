@@ -25,12 +25,12 @@ export default function CategoryButtons() {
   };
 
   function setFoodRecipeData(data, buttonText) {
-    setRecipeData({ ...recipeData, meals: [...data.meals] });
+    setRecipeData([...data.meals]);
     setCategory(buttonText);
   }
 
   function setDrinkRecipeData(data, buttonText) {
-    setRecipeData({ ...recipeData, drinks: [...data.drinks] });
+    setRecipeData([...data.drinks]);
     setCategory(buttonText);
   }
 
@@ -50,21 +50,21 @@ export default function CategoryButtons() {
   async function foodsRequest() {
     const response = await fetch(FOOD_CARDS_URL);
     const data = await response.json();
-    return data;
+    return data.meals;
   }
 
   async function drinksRequest() {
     const response = await fetch(DRINK_CARDS_URL);
     const data = await response.json();
-    return data;
+    return data.drinks;
   }
 
   function toogleCategoryButton(buttonText) {
     if (location.pathname === '/comidas' && category === buttonText) {
-      return foodsRequest().then((data) => setRecipeData({ meals: data.meals }));
+      return foodsRequest().then((data) => setRecipeData([...data]));
     }
     if (location.pathname === '/bebidas' && category === buttonText) {
-      return drinksRequest().then((data) => setRecipeData({ drinks: data.drinks }));
+      return drinksRequest().then((data) => setRecipeData([...data]));
     }
 
     searchRecipeByCategory(buttonText);
@@ -72,9 +72,9 @@ export default function CategoryButtons() {
   function handleAllCategory() {
     const searchOptions = {
       '/comidas': () => foodsRequest()
-        .then((data) => setRecipeData({ meals: data.meals })),
+        .then((data) => setRecipeData([...data])),
       '/bebidas': () => drinksRequest()
-        .then((data) => setRecipeData({ drinks: data.drinks })),
+        .then((data) => setRecipeData([...data])),
     };
     return searchOptions[location.pathname]();
   }

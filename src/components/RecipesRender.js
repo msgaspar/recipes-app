@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, Link } from 'react-router-dom';
 import FoodsContext from '../context/FoodsContext';
 import CategoryButtons from './CategoryButtons';
 
@@ -21,37 +21,40 @@ export default function RecipesRender() {
     const foodsRequest = async () => {
       const response = await fetch(FOOD_CARDS_URL);
       const data = await response.json();
-      return data;
+      return data.meals;
     };
     const drinksRequest = async () => {
       const response = await fetch(DRINK_CARDS_URL);
       const data = await response.json();
-      return data;
+      return data.drinks;
     };
     if (location.pathname === '/comidas') {
-      foodsRequest().then((data) => setRecipeData({ meals: data.meals }));
+      foodsRequest().then((data) => setRecipeData([...data]));
     }
     if (location.pathname === '/bebidas') {
-      drinksRequest().then((data) => setRecipeData({ drinks: data.drinks }));
+      drinksRequest().then((data) => setRecipeData([...data]));
     }
   }, [setRecipeData, location, setButtonsCategories]);
 
   function handleFoodPage() {
-    if (recipeData.meals && buttonsCategories) {
+    if (recipeData && buttonsCategories) {
       return (
         <div>
-          {recipeData.meals.slice(0, sizeCards).map((recipe, index) => (
+          {recipeData.slice(0, sizeCards).map((recipe, index) => (
             <div
               data-testid={ `${index}-recipe-card` }
               className="recipe-card-wrapper"
               key={ index }
+              id={ recipe.idMeal }
             >
-              <img
-                src={ recipe.strMealThumb }
-                alt={ recipe.strMeal }
-                className="recipe-card-thumb"
-                data-testid={ `${index}-card-img` }
-              />
+              <Link to={ `${location.pathname}/${recipe.idMeal}` }>
+                <img
+                  src={ recipe.strMealThumb }
+                  alt={ recipe.strMeal }
+                  className="recipe-card-thumb"
+                  data-testid={ `${index}-card-img` }
+                />
+              </Link>
               <p
                 data-testid={ `${index}-card-name` }
               >
@@ -65,21 +68,24 @@ export default function RecipesRender() {
   }
 
   function handleDrinkPage() {
-    if (recipeData.drinks && buttonsCategories) {
+    if (recipeData && buttonsCategories) {
       return (
         <div>
-          {recipeData.drinks.slice(0, sizeCards).map((recipe, index) => (
+          {recipeData.slice(0, sizeCards).map((recipe, index) => (
             <div
               data-testid={ `${index}-recipe-card` }
               className="recipe-card-wrapper"
               key={ index }
+              id={ recipe.idDrink }
             >
-              <img
-                src={ recipe.strDrinkThumb }
-                alt={ recipe.strDrink }
-                className="recipe-card-thumb"
-                data-testid={ `${index}-card-img` }
-              />
+              <Link to={ `${location.pathname}/${recipe.idDrink}` }>
+                <img
+                  src={ recipe.strDrinkThumb }
+                  alt={ recipe.strDrink }
+                  className="recipe-card-thumb"
+                  data-testid={ `${index}-card-img` }
+                />
+              </Link>
               <p
                 data-testid={ `${index}-card-name` }
               >
@@ -95,10 +101,7 @@ export default function RecipesRender() {
   return (
     <div className="cards-wrapper">
       <CategoryButtons />
-      { location.pathname === '/comidas'
-        ? handleFoodPage() : null }
-      { location.pathname === '/bebidas'
-        ? handleDrinkPage() : null }
+      { location.pathname === '/comidas' ? handleFoodPage() : handleDrinkPage() }
     </div>
   );
 }
