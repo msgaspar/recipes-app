@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, useHistory } from 'react-router-dom';
-import { Container, Row, Button, Col } from 'react-bootstrap';
+import { useParams } from 'react-router-dom';
+import { Container } from 'react-bootstrap';
 import { getFoodRecipeDetails } from '../services/getRecipeDetails';
 import RecipeHeader from '../components/RecipeHeader';
 import IngredientsCheckList from '../components/IngredientsCheckList';
+import FinishFoodRecipe from '../components/FinishFoodRecipe';
 
 export default function InProcessFood() {
   const { id } = useParams();
-  const history = useHistory();
   const [recipeData, setRecipeData] = useState(null);
   const [allIngredientsChecked, setAllIngredientsChecked] = useState(false);
 
@@ -50,22 +50,10 @@ export default function InProcessFood() {
           Aqui as instruções de como fazer essa receitinha maravilhosa
         </p>
       </div>
-
-      <Row>
-        <Col className="d-flex justify-content-center">
-          <Button
-            disabled={ !allIngredientsChecked }
-            onClick={ () => history.push('/receitas-feitas') }
-            className="w-100 my-3 py-2"
-            style={ {
-              fontSize: '20px',
-            } }
-            data-testid="finish-recipe-btn"
-          >
-            Finalizar Receita
-          </Button>
-        </Col>
-      </Row>
+      <FinishFoodRecipe
+        checkIngredients={ allIngredientsChecked }
+        recipeData={ recipeData }
+      />
     </Container>
   );
 }

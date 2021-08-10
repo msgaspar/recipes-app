@@ -1,19 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import { useLocation, useHistory, useParams } from 'react-router-dom';
-import { Button } from 'react-bootstrap';
+import { useLocation } from 'react-router-dom';
 import DrinkRecommends from '../components/DrinkRecommends';
 import RecipeHeader from '../components/RecipeHeader';
 
 import '../styles/StartRecipe.css';
+import StartFoodRecipes from '../components/StartFoodRecipes';
 
 export default function FoodDetails() {
   const [foodDetails, setFoodDetails] = useState();
   const [foodItems, setFoodItems] = useState();
   const [drinksRecommends, setDrinksRecommends] = useState();
   const location = useLocation();
-  const history = useHistory();
-  const { id } = useParams();
-
   const FOOD_DETAILS_URL = 'https://www.themealdb.com/api/json/v1/1/lookup.php?i=';
   const DRINK_RECOMMENDS = 'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=';
 
@@ -51,10 +48,6 @@ export default function FoodDetails() {
         <li key={ index } data-testid={ `${index}-ingredient-name-and-measure` }>
           { ingredient }
         </li>));
-  }
-
-  function handleStartRecipe() {
-    history.push(`/comidas/${id}/in-progress`);
   }
 
   useEffect(() => {
@@ -123,15 +116,7 @@ export default function FoodDetails() {
         <h3>Receitas recomendadas</h3>
         <DrinkRecommends recommends={ drinksRecommends } />
       </div>
-      <div className="start-recipe-wrapper d-grid gap-2">
-        <Button
-          data-testid="start-recipe-btn"
-          onClick={ handleStartRecipe }
-          size="lg"
-        >
-          Iniciar Receita
-        </Button>
-      </div>
+      <StartFoodRecipes />
     </div>
   );
 }
