@@ -24,3 +24,9 @@ export const randomFoodRequest = async () => {
   const data = await response.json();
   return data.meals[0].idMeal;
 };
+
+export const fetchIngredientsFood = () => (
+  fetch('https://www.themealdb.com/api/json/v1/1/list.php?i=list')
+    .then((res) => res.json())
+    .then((response) => response)
+);
