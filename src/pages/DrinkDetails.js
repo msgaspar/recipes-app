@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory, useLocation, useParams } from 'react-router-dom';
-import { Button, Image, Badge } from 'react-bootstrap';
+import { Button } from 'react-bootstrap';
 import FoodRecommends from '../components/FoodRecommends';
+import RecipeHeader from '../components/RecipeHeader';
 
 import '../styles/StartRecipe.css';
 
@@ -89,20 +90,13 @@ export default function DrinkDetails() {
 
   return (
     <div>
-      <Image
-        fluid
-        src={ drinkDetails ? drinkDetails.strDrinkThumb : null }
-        alt="Foto"
-        data-testid="recipe-photo"
+      <RecipeHeader
+        alcoholicOrNot={ drinkDetails && drinkDetails.strAlcoholic }
+        imgUrl={ drinkDetails && drinkDetails.strDrinkThumb }
+        name={ drinkDetails && drinkDetails.strDrink }
+        category={ drinkDetails && drinkDetails.strCategory }
+        type="bebida"
       />
-      <h1 data-testid="recipe-title">{ drinkDetails ? drinkDetails.strDrink : null }</h1>
-      <Button data-testid="share-btn">Compartilhar</Button>
-      <Button data-testid="favorite-btn">Favoritar</Button>
-      <Badge
-        data-testid="recipe-category"
-      >
-        { drinkDetails ? drinkDetails.strAlcoholic : null}
-      </Badge>
       <div>
         <h3>Ingredients</h3>
         <ul>

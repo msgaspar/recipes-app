@@ -13,6 +13,7 @@ export default function FoodDetails() {
   const location = useLocation();
   const history = useHistory();
   const { id } = useParams();
+
   const FOOD_DETAILS_URL = 'https://www.themealdb.com/api/json/v1/1/lookup.php?i=';
   const DRINK_RECOMMENDS = 'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=';
 
@@ -90,9 +91,11 @@ export default function FoodDetails() {
   return (
     <div>
       <RecipeHeader
-        category={ foodDetails ? foodDetails.strCategory : null }
-        imgUrl={ foodDetails ? foodDetails.strMealThumb : null }
-        title={ foodDetails ? foodDetails.strMeal : null }
+        category={ foodDetails && foodDetails.strCategory }
+        imgUrl={ foodDetails && foodDetails.strMealThumb }
+        name={ foodDetails && foodDetails.strMeal }
+        type="comida"
+        area={ foodDetails && foodDetails.strArea }
       />
       <div>
         <h3>Ingredients</h3>

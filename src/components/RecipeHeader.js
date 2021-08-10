@@ -1,41 +1,36 @@
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import copy from 'clipboard-copy';
+import { useParams } from 'react-router-dom';
 import { Image, Button, Badge, Row, Col, Container } from 'react-bootstrap';
-import ShareIcon from '../images/shareIcon.svg';
+import useLocalStorage from '../hooks/useLocalStorage';
 import WhiteHeartIcon from '../images/whiteHeartIcon.svg';
 import BlackHeartIcon from '../images/blackHeartIcon.svg';
+import CopyLinkButton from './CopyLinkButton';
 
-function RecipeHeader({ imgUrl, title, category, isFavorite, toggleFavorite }) {
-  const [linkCopied, setLinkCopied] = useState(false);
+function RecipeHeader({ imgUrl, category, name, type, area, alcoholicOrNot }) {
+  const { id } = useParams();
+  const [favoriteRecipes, setFavoriteRecipes] = useLocalStorage('favoriteRecipes', []);
+  const isFavorite = favoriteRecipes.some((recipe) => recipe.id === id);
 
-  function handleCopyLink() {
-    const url = window.location.href
-      .split('/')
-      .filter((part) => part !== 'in-progress')
-      .join('/');
-
-    copy(url);
-    setLinkCopied(true);
-
-    const TWO_SECONDS = 2000;
-    setTimeout(() => {
-      setLinkCopied(false);
-    }, TWO_SECONDS);
+  function handleToggleFavorite() {
+    if (isFavorite) {
+      const newFavoriteRecipes = favoriteRecipes.filter((recipe) => recipe.id !== id);
+      setFavoriteRecipes(newFavoriteRecipes);
+    } else {
+      setFavoriteRecipes([...favoriteRecipes, {
+        id,
+        type,
+        area,
+        category,
+        name,
+        image: imgUrl,
+        alcoholicOrNot,
+      }]);
+    }
   }
 
   return (
     <Container as="header" className="p-0">
-      { linkCopied && (
-        <Row className="justify-content-center align-items-center">
-          <p
-            className="m-0 py-2"
-          >
-            Link copiado!
-
-          </p>
-        </Row>
-      )}
       <Row>
         <Col className="p-0">
           <Image
@@ -48,7 +43,7 @@ function RecipeHeader({ imgUrl, title, category, isFavorite, toggleFavorite }) {
       </Row>
       <Row className="pt-3 align-items-start">
         <Col xs={ 8 }>
-          <h2 className="m-0" data-testid="recipe-title">{ title }</h2>
+          <h2 className="m-0" data-testid="recipe-title">{ name }</h2>
           <h5>
             <Badge
               as="p"
@@ -61,19 +56,10 @@ function RecipeHeader({ imgUrl, title, category, isFavorite, toggleFavorite }) {
           </h5>
         </Col>
         <Col xs={ 4 } className="px-0 d-flex">
-          <Button
-            data-testid="share-btn"
-            variant="link"
-            onClick={ handleCopyLink }
-          >
-            <Image
-              fluid
-              src={ ShareIcon }
-            />
-          </Button>
+          <CopyLinkButton />
           <Button
             variant="link"
-            onClick={ toggleFavorite }
+            onClick={ handleToggleFavorite }
           >
             <Image
               data-testid="favorite-btn"
@@ -87,11 +73,20 @@ function RecipeHeader({ imgUrl, title, category, isFavorite, toggleFavorite }) {
 }
 
 RecipeHeader.propTypes = {
-  isFavorite: PropTypes.bool.isRequired,
-  toggleFavorite: PropTypes.func.isRequired,
-  imgUrl: PropTypes.string.isRequired,
-  title: PropTypes.string.isRequired,
-  category: PropTypes.string.isRequired,
+  imgUrl: PropTypes.string,
+  name: PropTypes.string,
+  category: PropTypes.string,
+  type: PropTypes.oneOf(['comida', 'bebida']).isRequired,
+  area: PropTypes.string,
+  alcoholicOrNot: PropTypes.string,
+};
+
+RecipeHeader.defaultProps = {
+  imgUrl: '',
+  alcoholicOrNot: '',
+  name: '',
+  category: '',
+  area: '',
 };
 
 export default RecipeHeader;
