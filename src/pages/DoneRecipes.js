@@ -86,21 +86,21 @@ export default function DoneRecipes() {
                     />
                   </button>
                   <Link to={ `/comidas/${item.id}` }>
-                    <h4 data-testid={ `${index}-horizontal-name` }>{ item.name }</h4>
+                    <h4 data-testid={ `${index}-horizontal-name` }>{item.name}</h4>
                   </Link>
                   <p data-testid={ `${index}-horizontal-top-text` }>
-                    { `${item.area} - ${item.category}` }
+                    {`${item.area} - ${item.category}`}
                   </p>
                   <b />
-                  <p data-testid={ `${index}-horizontal-done-date` }>{ item.doneDate }</p>
+                  <p data-testid={ `${index}-horizontal-done-date` }>{item.doneDate}</p>
                   <b />
                   <p>
-                    { item.tags.map((itemTag, indexTag) => (
+                    {item.tags.map((itemTag, indexTag) => (
                       <span
                         data-testid={ `${index}-${itemTag}-horizontal-tag` }
                         key={ indexTag }
                       >
-                        { itemTag }
+                        {itemTag}
                       </span>
                     ))}
                   </p>
@@ -130,15 +130,15 @@ export default function DoneRecipes() {
                   />
                 </button>
                 <Link to={ `/bebidas/${item.id}` }>
-                  <h4 data-testid={ `${index}-horizontal-name` }>{ item.name }</h4>
+                  <h4 data-testid={ `${index}-horizontal-name` }>{item.name}</h4>
                 </Link>
                 <p
                   data-testid={ `${index}-horizontal-top-text` }
                 >
-                  { item.alcoholicOrNot }
+                  {item.alcoholicOrNot}
                 </p>
                 <b />
-                <p data-testid={ `${index}-horizontal-done-date` }>{ item.doneDate }</p>
+                <p data-testid={ `${index}-horizontal-done-date` }>{item.doneDate}</p>
               </section>
             </section>
           );
