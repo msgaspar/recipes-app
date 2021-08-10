@@ -10,18 +10,18 @@ import '../DoneRecipes.css';
 import Header from '../components/Header';
 
 export default function FavoriteRecipes() {
-  const { id } = useParams();
-  const doneRecipes = JSON.parse(localStorage.getItem('favoriteRecipes')) || [];
-  const [recipes, setRecipes] = useState(doneRecipes);
+  // const { id } = useParams();
+  const savedRecipes = JSON.parse(localStorage.getItem('favoriteRecipes')) || [];
+  const [recipes, setRecipes] = useState(savedRecipes);
   const [copyText, setCopyText] = useState('');
   const [favoriteRecipes, setFavoriteRecipes] = useLocalStorage('favoriteRecipes', []);
   // const isFavorite = favoriteRecipes.some((recipe) => recipe.id === id);
 
   const filterRecipesDone = (type) => {
     if (type === 'all') {
-      setRecipes(doneRecipes);
+      setRecipes(savedRecipes);
     } else {
-      const filterResult = doneRecipes.filter((item) => item.type === type);
+      const filterResult = savedRecipes.filter((item) => item.type === type);
       setRecipes(filterResult);
     }
   };
@@ -32,9 +32,11 @@ export default function FavoriteRecipes() {
     setInterval(() => setCopyText(''), '2000');
   };
 
-  function handleToggleFavorite() {
-    const newFavoriteRecipes = favoriteRecipes.filter((recipe) => recipe.id !== id);
+  function handleToggleFavorite(target) {
+    const newFavoriteRecipes = favoriteRecipes
+      .filter((recipe) => recipe.id !== target.id);
     setFavoriteRecipes(newFavoriteRecipes);
+    setRecipes(newFavoriteRecipes);
   }
 
   return (
@@ -69,7 +71,7 @@ export default function FavoriteRecipes() {
         </button>
       </section>
       {
-        doneRecipes ? recipes.map((item, index) => {
+        savedRecipes ? recipes.map((item, index) => {
           if (item.type === 'comida') {
             return (
               <section className="recipes-done" key={ item.id }>
@@ -84,11 +86,12 @@ export default function FavoriteRecipes() {
                 <section>
                   <Button
                     variant="link"
-                    onClick={ handleToggleFavorite }
+                    onClick={ ({ target }) => handleToggleFavorite(target) }
                   >
                     <Image
                       src={ BlackHeartIcon }
                       data-testid={ `${index}-horizontal-favorite-btn` }
+                      id={ item.id }
                     />
                   </Button>
                   <button
@@ -137,10 +140,12 @@ export default function FavoriteRecipes() {
               <section>
                 <Button
                   variant="link"
+                  onClick={ ({ target }) => handleToggleFavorite(target) }
                 >
                   <Image
                     src={ BlackHeartIcon }
                     data-testid={ `${index}-horizontal-favorite-btn` }
+                    id={ item.id }
                   />
                 </Button>
                 <button
