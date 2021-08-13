@@ -10,22 +10,26 @@ export default function RecipesRender() {
     setRecipeData,
     buttonsCategories,
     setButtonsCategories,
+    filteredIngredient,
+    setFilteredIngredient,
   } = useContext(FoodsContext);
   const history = useHistory();
   const location = useLocation();
   const sizeCards = 12;
-  const FOOD_CARDS_URL = 'https://www.themealdb.com/api/json/v1/1/search.php?s=';
-  const DRINK_CARDS_URL = 'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=';
+  const FOOD_CARDS_URL = (filteredIngredient === '') ? 'https://www.themealdb.com/api/json/v1/1/search.php?s=' : `https://www.themealdb.com/api/json/v1/1/filter.php?i=${filteredIngredient}`;
+  const DRINK_CARDS_URL = (filteredIngredient === '') ? 'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=' : `https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=${filteredIngredient}`;
 
   useEffect(() => {
     const foodsRequest = async () => {
       const response = await fetch(FOOD_CARDS_URL);
       const data = await response.json();
+      setFilteredIngredient('');
       return data.meals;
     };
     const drinksRequest = async () => {
       const response = await fetch(DRINK_CARDS_URL);
       const data = await response.json();
+      setFilteredIngredient('');
       return data.drinks;
     };
     if (location.pathname === '/comidas') {
