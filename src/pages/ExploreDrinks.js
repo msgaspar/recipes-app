@@ -1,11 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import Header from '../components/Header';
 import LowerMenu from '../components/LowerMenu';
+import ExploreOptionButton from '../components/ExploreOptionButton';
 import { randomDrinkRequest } from '../services/drinkSearch';
+import surpriseIcon from '../images/surpriseIcon.svg';
+import listIcon from '../images/listIcon.svg';
 
 export default function ExploreDrinks() {
   const [randomDrink, setRandomDrink] = useState('');
+  const history = useHistory();
 
   useEffect(() => {
     randomDrinkRequest().then((res) => setRandomDrink(res));
@@ -14,26 +18,28 @@ export default function ExploreDrinks() {
   return (
     <div>
       <Header title="Explorar Bebidas" />
-      <Link
-        to="/explorar/bebidas/ingredientes"
+      <div
+        className="d-flex flex-column align-items-center mx-4"
+        style={ {
+          padding: '80px 0 70px',
+          height: '100vh',
+        } }
       >
-        <button
-          type="button"
+        <ExploreOptionButton
+          color="#FA8334"
+          handleClick={ () => history.push('/explorar/bebidas/ingredientes') }
+          icon={ listIcon }
+          text="Por Ingredientes"
           data-testid="explore-by-ingredient"
-        >
-          Por Ingredientes
-        </button>
-      </Link>
-      <Link
-        to={ `/bebidas/${randomDrink}` }
-      >
-        <button
-          type="button"
+        />
+        <ExploreOptionButton
+          color="#ED254E"
+          handleClick={ () => history.push(`/bebidas/${randomDrink}`) }
+          icon={ surpriseIcon }
+          text="Me Surpreenda!"
           data-testid="explore-surprise"
-        >
-          Me Surpreenda!
-        </button>
-      </Link>
+        />
+      </div>
       <LowerMenu />
     </div>
   );

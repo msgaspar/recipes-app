@@ -1,10 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import Header from '../components/Header';
 import LowerMenu from '../components/LowerMenu';
+import ExploreOptionButton from '../components/ExploreOptionButton';
 import { randomFoodRequest } from '../services/foodSearch';
+import listIcon from '../images/listIcon.svg';
+import surpriseIcon from '../images/surpriseIcon.svg';
+import mapIcon from '../images/mapIcon.svg';
 
 export default function ExploreFoods() {
+  const history = useHistory();
   const [randomFood, setRandomFood] = useState('');
 
   useEffect(() => {
@@ -13,38 +18,36 @@ export default function ExploreFoods() {
 
   return (
     <div>
-      {console.log(randomFood)}
       <Header title="Explorar Comidas" />
-      <Link
-        to="/explorar/comidas/ingredientes"
+      <div
+        className="d-flex flex-column align-items-center mx-4"
+        style={ {
+          padding: '80px 0 70px',
+          height: '100vh',
+        } }
       >
-        <button
-          type="button"
+        <ExploreOptionButton
+          color="#FA8334"
+          handleClick={ () => history.push('/explorar/comidas/ingredientes') }
+          icon={ listIcon }
+          text="Por Ingredientes"
           data-testid="explore-by-ingredient"
-        >
-          Por Ingredientes
-        </button>
-      </Link>
-      <Link
-        to="/explorar/comidas/area"
-      >
-        <button
-          type="button"
+        />
+        <ExploreOptionButton
+          color="#11a999"
+          handleClick={ () => history.push('/explorar/comidas/area') }
+          icon={ mapIcon }
+          text="Por Local de Origem"
           data-testid="explore-by-area"
-        >
-          Por Local de Origem
-        </button>
-      </Link>
-      <Link
-        to={ `/comidas/${randomFood}` }
-      >
-        <button
-          type="button"
+        />
+        <ExploreOptionButton
+          color="#ED254E"
+          handleClick={ () => history.push(`/comidas/${randomFood}`) }
+          icon={ surpriseIcon }
+          text="Me Surpreenda!"
           data-testid="explore-surprise"
-        >
-          Me Surpreenda!
-        </button>
-      </Link>
+        />
+      </div>
       <LowerMenu />
     </div>
   );
