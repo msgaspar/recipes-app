@@ -5,11 +5,15 @@ import FoodsContext from './FoodsContext';
 export default function FoodsProvider({ children }) {
   const [recipeData, setRecipeData] = useState([]);
   const [buttonsCategories, setButtonsCategories] = useState([]);
+  const [filteredIngredient, setFilteredIngredient] = useState('');
+
   const context = {
     recipeData,
     setRecipeData,
     buttonsCategories,
     setButtonsCategories,
+    filteredIngredient,
+    setFilteredIngredient,
   };
 
   return (

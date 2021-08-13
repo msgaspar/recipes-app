@@ -1,12 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 import LowerMenu from '../components/LowerMenu';
+import FoodsContext from '../context/FoodsContext';
 import Header from '../components/Header';
 import { fetchIngredientsDrink } from '../services/drinkSearch';
 
 export default function ExploreDrinksByIngredients() {
   const history = useHistory();
   const [ingredients, setIngredients] = useState([]);
+  const { filteredIngredient, setFilteredIngredient } = useContext(FoodsContext);
 
   useEffect(() => {
     const func = async () => {
@@ -27,8 +29,11 @@ export default function ExploreDrinksByIngredients() {
             role="presentation"
             data-testid={ `${index}-ingredient-card` }
             key={ ingredient.idIngredient }
-            onClick={ () => history
-              .push({ pathname: '/bebidas' }) }
+            onClick={ () => {
+              setFilteredIngredient(ingredient.strIngredient1);
+              console.log(filteredIngredient);
+              history.push('/bebidas');
+            } }
           >
             <img
               data-testid={ `${index}-card-img` }
