@@ -13,19 +13,44 @@ export default function Header({ title, showSearchIcon }) {
   }
 
   return (
-    <header className="container" style={ { backgroundColor: '#E3E3E3' } }>
-      <div className="row align-items-center" style={ { height: '60px' } }>
-        <div className="col-2">
+    <header
+      style={ {
+        position: 'fixed',
+        backgroundColor: '#fff',
+        zIndex: 1,
+      } }
+      className="container"
+    >
+      <div
+        className="d-flex align-items-center justify-content-between px-3"
+        style={ {
+          height: '80px',
+        } }
+      >
+        <div>
           <Link to="/perfil">
             <img
+              style={ {
+                width: '30px',
+              } }
               data-testid="profile-top-btn"
               src={ ProfileIcon }
               alt="link para perfil"
             />
           </Link>
         </div>
-        <h1 data-testid="page-title" className="m-0 h4 col-8 text-center">{title}</h1>
-        <div className="col-2 d-flex justify-content-center">
+        <h1
+          data-testid="page-title"
+          className="m-0 h4 font-weight-bold text-center mt-1"
+        >
+          {title}
+        </h1>
+        <div
+          className="d-flex justify-content-center"
+          style={ {
+            width: '30px',
+          } }
+        >
           { showSearchIcon
           && (
             <button
@@ -38,6 +63,9 @@ export default function Header({ title, showSearchIcon }) {
               onClick={ toggleSearchBar }
             >
               <img
+                style={ {
+                  width: '24px',
+                } }
                 data-testid="search-top-btn"
                 src={ SearchIcon }
                 alt="buscar receita"

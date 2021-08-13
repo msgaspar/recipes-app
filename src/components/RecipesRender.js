@@ -1,9 +1,8 @@
 import React, { useContext, useEffect } from 'react';
-import { useLocation, Link } from 'react-router-dom';
+import { useLocation, useHistory } from 'react-router-dom';
 import FoodsContext from '../context/FoodsContext';
 import CategoryButtons from './CategoryButtons';
-
-import '../styles/RecipesRender.css';
+import RecipeCard from './RecipeCard';
 
 export default function RecipesRender() {
   const {
@@ -12,6 +11,7 @@ export default function RecipesRender() {
     buttonsCategories,
     setButtonsCategories,
   } = useContext(FoodsContext);
+  const history = useHistory();
   const location = useLocation();
   const sizeCards = 12;
   const FOOD_CARDS_URL = 'https://www.themealdb.com/api/json/v1/1/search.php?s=';
@@ -38,70 +38,52 @@ export default function RecipesRender() {
 
   function handleFoodPage() {
     if (recipeData && buttonsCategories) {
-      return (
-        <div>
-          {recipeData.slice(0, sizeCards).map((recipe, index) => (
-            <div
-              data-testid={ `${index}-recipe-card` }
-              className="recipe-card-wrapper"
-              key={ index }
-              id={ recipe.idMeal }
-            >
-              <Link to={ `${location.pathname}/${recipe.idMeal}` }>
-                <img
-                  src={ recipe.strMealThumb }
-                  alt={ recipe.strMeal }
-                  className="recipe-card-thumb"
-                  data-testid={ `${index}-card-img` }
-                />
-              </Link>
-              <p
-                data-testid={ `${index}-card-name` }
-              >
-                {recipe.strMeal}
-              </p>
-            </div>
-          ))}
-        </div>
-      );
+      return recipeData.slice(0, sizeCards).map((recipe, index) => (
+        <RecipeCard
+          key={ index }
+          recipeId={ recipe.idMeal }
+          imgUrl={ recipe.strMealThumb }
+          index={ index }
+          recipeName={ recipe.strMeal }
+          onClick={ () => history.push(`/comidas/${recipe.idMeal}`) }
+        />
+      ));
     }
   }
 
   function handleDrinkPage() {
     if (recipeData && buttonsCategories) {
-      return (
-        <div>
-          {recipeData.slice(0, sizeCards).map((recipe, index) => (
-            <div
-              data-testid={ `${index}-recipe-card` }
-              className="recipe-card-wrapper"
-              key={ index }
-              id={ recipe.idDrink }
-            >
-              <Link to={ `${location.pathname}/${recipe.idDrink}` }>
-                <img
-                  src={ recipe.strDrinkThumb }
-                  alt={ recipe.strDrink }
-                  className="recipe-card-thumb"
-                  data-testid={ `${index}-card-img` }
-                />
-              </Link>
-              <p
-                data-testid={ `${index}-card-name` }
-              >
-                {recipe.strDrink}
-              </p>
-            </div>
-          ))}
-        </div>
-      );
+      return recipeData.slice(0, sizeCards).map((recipe, index) => (
+        <RecipeCard
+          data-testid={ `${index}-recipe-card` }
+          key={ index }
+          recipeId={ recipe.idDrink }
+          imgUrl={ recipe.strDrinkThumb }
+          index={ index }
+          recipeName={ recipe.strDrink }
+          onClick={ () => history.push(`/bebidas/${recipe.idDrink}`) }
+        />
+      ));
     }
   }
 
   return (
-    <div className="cards-wrapper">
+    <div
+      className="d-flex flex-column"
+      style={ {
+        paddingTop: '80px',
+        paddingBottom: '70px',
+      } }
+    >
       <CategoryButtons />
-      { location.pathname === '/comidas' ? handleFoodPage() : handleDrinkPage() }
+      <div
+        className="px-4 mx-auto"
+        style={ {
+          maxWidth: '500px',
+        } }
+      >
+        { location.pathname === '/comidas' ? handleFoodPage() : handleDrinkPage() }
+      </div>
     </div>
   );
 }

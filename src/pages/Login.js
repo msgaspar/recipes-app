@@ -55,7 +55,7 @@ export default function Login() {
       </Row>
       <Row>
         <Col
-          className="d-flex flex-column align-items-center mx-2"
+          className="d-flex flex-column align-items-center mx-4"
         >
           <label
             className="d-flex flex-column w-100 mb-3"

@@ -27,6 +27,15 @@ body {
   max-height: 80vh;
 }
 
+.btn.btn-secondary {
+  border: none;
+  background-color: #f6f6f6;
+  color: #666;
+  /* font-weight: bold; */
+  font-size: 0.9rem;
+  min-width: 70px;
+}
+
 /*
 #iceLeft {
   animation: clink .8s infinite ease;
@@ -77,4 +86,14 @@ body {
   100% {
     transform: rotate(-10deg);
   }
+}
+
+.recipe-card:before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-image: linear-gradient(to bottom, #00000000, #00000020, #000000ee);
 }
