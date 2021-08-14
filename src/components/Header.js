@@ -42,6 +42,9 @@ export default function Header({ title, showSearchIcon }) {
         <h1
           data-testid="page-title"
           className="m-0 h4 font-weight-bold text-center mt-1"
+          style={ {
+            maxWidth: '230px',
+          } }
         >
           {title}
         </h1>

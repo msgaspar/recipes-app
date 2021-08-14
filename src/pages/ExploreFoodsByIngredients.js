@@ -4,11 +4,12 @@ import LowerMenu from '../components/LowerMenu';
 import Header from '../components/Header';
 import { fetchIngredientsFood } from '../services/foodSearch';
 import FoodsContext from '../context/FoodsContext';
+import IngredientCard from '../components/IngredientCard';
 
 export default function ExploreFoodsByIngredients() {
   const history = useHistory();
   const [ingredients, setIngredients] = useState([]);
-  const { filteredIngredient, setFilteredIngredient } = useContext(FoodsContext);
+  const { setFilteredIngredient } = useContext(FoodsContext);
 
   useEffect(() => {
     const func = async () => {
@@ -22,28 +23,23 @@ export default function ExploreFoodsByIngredients() {
 
   return (
     <div>
-      {console.log(filteredIngredient)}
       <Header title="Explorar Ingredientes" />
-      <div>
+      <div
+        className="d-flex flex-wrap align-items-center mx-4"
+        style={ {
+          padding: '80px 0 70px',
+        } }
+      >
         {ingredients.length > 0 && ingredients.map((ingredient, index) => (
-          <div
-            role="presentation"
-            data-testid={ `${index}-ingredient-card` }
+          <IngredientCard
             key={ ingredient.idIngredient }
-            onClick={ () => {
+            index={ index }
+            name={ ingredient.strIngredient }
+            handleClick={ () => {
               setFilteredIngredient(ingredient.strIngredient);
               history.push('/comidas');
             } }
-            name={ ingredient.strIngredient }
-          >
-            <img
-              data-testid={ `${index}-card-img` }
-              width="100px"
-              src={ `https://www.themealdb.com/images/ingredients/${ingredient.strIngredient}-Small.png` }
-              alt=""
-            />
-            <p data-testid={ `${index}-card-name` }>{ingredient.strIngredient}</p>
-          </div>
+          />
         ))}
       </div>
       <LowerMenu />
