@@ -27,7 +27,7 @@ export default function ExploreFoodsByIngredients() {
       <div
         className="d-flex flex-wrap align-items-center mx-4"
         style={ {
-          padding: '80px 0 70px',
+          padding: '100px 0 70px',
         } }
       >
         {ingredients.length > 0 && ingredients.map((ingredient, index) => (
@@ -39,6 +39,7 @@ export default function ExploreFoodsByIngredients() {
               setFilteredIngredient(ingredient.strIngredient);
               history.push('/comidas');
             } }
+            imgUrl={ `https://www.themealdb.com/images/ingredients/${ingredient.strIngredient}-Small.png` }
           />
         ))}
       </div>

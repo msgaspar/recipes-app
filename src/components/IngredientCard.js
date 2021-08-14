@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-function IngredientCard({ name, index, handleClick, ...otherProps }) {
+function IngredientCard({ name, index, handleClick, imgUrl, ...otherProps }) {
   return (
     <div
       className="m-2 flex-grow-1 d-flex flex-column align-items-center"
@@ -18,7 +18,7 @@ function IngredientCard({ name, index, handleClick, ...otherProps }) {
       <img
         data-testid={ `${index}-card-img` }
         width="100px"
-        src={ `https://www.themealdb.com/images/ingredients/${name}-Small.png` }
+        src={ imgUrl }
         alt=""
       />
       <p
@@ -41,6 +41,7 @@ IngredientCard.propTypes = {
   name: PropTypes.string.isRequired,
   index: PropTypes.number.isRequired,
   handleClick: PropTypes.func.isRequired,
+  imgUrl: PropTypes.string.isRequired,
 };
 
 export default IngredientCard;
