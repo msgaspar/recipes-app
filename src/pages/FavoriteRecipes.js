@@ -1,178 +1,83 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { Image, Button } from 'react-bootstrap';
-import copy from 'clipboard-copy';
-import shareIcon from '../images/shareIcon.svg';
-// import WhiteHeartIcon from '../images/whiteHeartIcon.svg';
-import BlackHeartIcon from '../images/blackHeartIcon.svg';
-import useLocalStorage from '../hooks/useLocalStorage';
-import '../DoneRecipes.css';
+import { Button } from 'react-bootstrap';
 import Header from '../components/Header';
+import FavoriteRecipeCard from '../components/FavoriteRecipeCard';
+import useLocalStorage from '../hooks/useLocalStorage';
 
 export default function FavoriteRecipes() {
-  // const { id } = useParams();
-  const savedRecipes = JSON.parse(localStorage.getItem('favoriteRecipes')) || [];
-  const [recipes, setRecipes] = useState(savedRecipes);
-  const [copyText, setCopyText] = useState('');
   const [favoriteRecipes, setFavoriteRecipes] = useLocalStorage('favoriteRecipes', []);
-  // const isFavorite = favoriteRecipes.some((recipe) => recipe.id === id);
+  const [recipes, setRecipes] = useState(favoriteRecipes);
 
   const filterRecipesDone = (type) => {
     if (type === 'all') {
-      setRecipes(savedRecipes);
+      setRecipes(favoriteRecipes);
     } else {
-      const filterResult = savedRecipes.filter((item) => item.type === type);
+      const filterResult = favoriteRecipes.filter((item) => item.type === type);
       setRecipes(filterResult);
     }
   };
 
-  const handleClickCopy = (recipe) => {
-    copy(`http://localhost:3000/${recipe.type}s/${recipe.id}`);
-    setCopyText('Link copiado!');
-    setInterval(() => setCopyText(''), '2000');
-  };
-
-  function handleToggleFavorite(target) {
+  function handleToggleFavorite(id) {
     const newFavoriteRecipes = favoriteRecipes
-      .filter((recipe) => recipe.id !== target.id);
+      .filter((recipe) => recipe.id !== id);
     setFavoriteRecipes(newFavoriteRecipes);
     setRecipes(newFavoriteRecipes);
   }
 
   return (
     <div>
-      <p>{copyText}</p>
       <Header title="Receitas Favoritas" />
-      favorite recipes
-      <section>
-        <button
-          className="buttons"
-          type="button"
-          data-testid="filter-by-all-btn"
-          onClick={ () => filterRecipesDone('all') }
+      <div
+        className="d-flex flex-column"
+        style={ {
+          paddingTop: '80px',
+        } }
+      >
+        <section>
+          <div className="d-flex flex-wrap justify-content-center px-5 mb-3">
+            <Button
+              className="m-1 flex-fill"
+              variant="secondary"
+              onClick={ () => filterRecipesDone('all') }
+              data-testid="filter-by-all-btn"
+            >
+              All
+            </Button>
+            <Button
+              className="m-1 flex-fill"
+              variant="secondary"
+              data-testid="filter-by-food-btn"
+              onClick={ () => filterRecipesDone('comida') }
+            >
+              Food
+            </Button>
+            <Button
+              className="m-1 flex-fill"
+              variant="secondary"
+              data-testid="filter-by-drink-btn"
+              onClick={ () => filterRecipesDone('bebida') }
+            >
+              Drink
+            </Button>
+          </div>
+        </section>
+        <div
+          className="px-4"
+          style={ {
+            maxWidth: '500px',
+          } }
         >
-          All
-        </button>
-        <button
-          className="buttons"
-          type="button"
-          data-testid="filter-by-food-btn"
-          onClick={ () => filterRecipesDone('comida') }
-        >
-          Food
-        </button>
-        <button
-          className="buttons"
-          type="button"
-          data-testid="filter-by-drink-btn"
-          onClick={ () => filterRecipesDone('bebida') }
-        >
-          Drink
-        </button>
-      </section>
-      {
-        savedRecipes ? recipes.map((item, index) => {
-          if (item.type === 'comida') {
-            return (
-              <section className="recipes-done" key={ item.id }>
-                <Link to={ `/comidas/${item.id}` }>
-                  <img
-                    width="200px"
-                    data-testid={ `${index}-horizontal-image` }
-                    alt="recipe"
-                    src={ item.image }
-                  />
-                </Link>
-                <section>
-                  <Button
-                    variant="link"
-                    onClick={ ({ target }) => handleToggleFavorite(target) }
-                  >
-                    <Image
-                      src={ BlackHeartIcon }
-                      data-testid={ `${index}-horizontal-favorite-btn` }
-                      id={ item.id }
-                    />
-                  </Button>
-                  <button
-                    type="button"
-                    onClick={ () => handleClickCopy(item) }
-                  >
-                    <img
-                      data-testid={ `${index}-horizontal-share-btn` }
-                      alt="share"
-                      src={ shareIcon }
-                    />
-                  </button>
-                  <Link to={ `/comidas/${item.id}` }>
-                    <h4 data-testid={ `${index}-horizontal-name` }>{item.name}</h4>
-                  </Link>
-                  <p data-testid={ `${index}-horizontal-top-text` }>
-                    {`${item.area} - ${item.category}`}
-                  </p>
-                  <b />
-                  <p data-testid={ `${index}-horizontal-done-date` }>{item.doneDate}</p>
-                  <b />
-                  <p>
-                    {/* {item.tags.map((itemTag, indexTag) => (
-                      <span
-                        data-testid={ `${index}-${itemTag}-horizontal-tag` }
-                        key={ indexTag }
-                      >
-                        {itemTag}
-                      </span>
-                    ))} */}
-                  </p>
-                </section>
-              </section>
-            );
+          {
+            recipes.map((item, index) => (
+              <FavoriteRecipeCard
+                item={ item }
+                index={ index }
+                key={ item.id }
+                onToggleFavorite={ handleToggleFavorite }
+              />))
           }
-          return (
-            <section className="recipes-done" key={ item.id }>
-              <Link to={ `/bebidas/${item.id}` }>
-                <img
-                  width="200px"
-                  data-testid={ `${index}-horizontal-image` }
-                  alt="recipe"
-                  src={ item.image }
-                />
-              </Link>
-              <section>
-                <Button
-                  variant="link"
-                  onClick={ ({ target }) => handleToggleFavorite(target) }
-                >
-                  <Image
-                    src={ BlackHeartIcon }
-                    data-testid={ `${index}-horizontal-favorite-btn` }
-                    id={ item.id }
-                  />
-                </Button>
-                <button
-                  type="button"
-                  onClick={ () => handleClickCopy(item) }
-                >
-                  <img
-                    data-testid={ `${index}-horizontal-share-btn` }
-                    alt="share"
-                    src={ shareIcon }
-                  />
-                </button>
-                <Link to={ `/bebidas/${item.id}` }>
-                  <h4 data-testid={ `${index}-horizontal-name` }>{item.name}</h4>
-                </Link>
-                <p
-                  data-testid={ `${index}-horizontal-top-text` }
-                >
-                  {item.alcoholicOrNot}
-                </p>
-                <b />
-                <p data-testid={ `${index}-horizontal-done-date` }>{item.doneDate}</p>
-              </section>
-            </section>
-          );
-        }) : null
-      }
+        </div>
+      </div>
     </div>
   );
 }

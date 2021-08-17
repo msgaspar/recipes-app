@@ -28,9 +28,10 @@ body {
 }
 
 .btn.btn-secondary {
-  border: none;
   background-color: #f6f6f6;
+  border: none;
   color: #666;
+
   /* font-weight: bold; */
   font-size: 0.9rem;
   min-width: 70px;
@@ -89,11 +90,11 @@ body {
 }
 
 .recipe-card:before {
-  content: '';
-  position: absolute;
-  top: 0;
-  right: 0;
+  background-image: linear-gradient(to bottom, #0000, #00000020, #000e);
   bottom: 0;
+  content: '';
   left: 0;
-  background-image: linear-gradient(to bottom, #00000000, #00000020, #000000ee);
+  position: absolute;
+  right: 0;
+  top: 0;
 }
