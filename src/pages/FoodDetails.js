@@ -66,6 +66,14 @@ export default function FoodDetails() {
     drinkRecommends().then((data) => setDrinksRecommends(data));
   }, [setFoodDetails, location.pathname]);
 
+  function handleYouTubeEmbed() {
+    const youtubeHash = foodDetails.strYoutube.split('=')[1];
+    const urlToEmbed = 'https://www.youtube.com/embed/';
+    const embedYoutubeHash = `${urlToEmbed}${youtubeHash}`;
+
+    return embedYoutubeHash;
+  }
+
   useEffect(() => {
     const handleRecipeInformation = () => {
       const arrayOfIngredients = handleIngredients();
@@ -90,14 +98,38 @@ export default function FoodDetails() {
         type="comida"
         area={ foodDetails && foodDetails.strArea }
       />
-      <div>
-        <h3>Ingredients</h3>
-        <ul>
+      <div
+        className="px-4"
+        style={ {
+          maxWidth: '500px',
+        } }
+      >
+        <h3
+          style={ {
+            color: '#343a40',
+            fontWeight: 'bold',
+          } }
+        >
+          Ingredients
+        </h3>
+        <ul className="bg-light w-100">
           { foodItems ? ingredientsInformation() : null }
         </ul>
       </div>
-      <div>
-        <h3>Instructions</h3>
+      <div
+        className="px-4"
+        style={ {
+          maxWidth: '500px',
+        } }
+      >
+        <h3
+          style={ {
+            color: '#343a40',
+            fontWeight: 'bold',
+          } }
+        >
+          Instructions
+        </h3>
         <p
           data-testid="instructions"
         >
@@ -105,15 +137,32 @@ export default function FoodDetails() {
         </p>
       </div>
       <iframe
-        src={ foodDetails ? foodDetails.strYoutube : null }
+        src={ foodDetails ? handleYouTubeEmbed() : null }
         title="YouTube video player"
         frameBorder="0"
         allow="accelerometer; gyroscope; picture-in-picture"
         allowFullScreen
         data-testid="video"
+        className="px-4"
+        style={ {
+          maxWidth: '500px',
+          height: '300px',
+        } }
       />
-      <div>
-        <h3>Receitas recomendadas</h3>
+      <div
+        className="px-4"
+        style={ {
+          maxWidth: '500px',
+        } }
+      >
+        <h3
+          style={ {
+            color: '#343a40',
+            fontWeight: 'bold',
+          } }
+        >
+          Receitas recomendadas
+        </h3>
         <DrinkRecommends recommends={ drinksRecommends } />
       </div>
       <StartFoodRecipes />

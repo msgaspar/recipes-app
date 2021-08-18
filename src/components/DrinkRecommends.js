@@ -7,7 +7,15 @@ export default function DrinkRecommends({ recommends }) {
   function hideRecommends(strDrink, index) {
     if (index <= 1) {
       return (
-        <div key={ index } data-testid={ `${index}-recomendation-card` }>
+        <div
+          key={ index }
+          data-testid={ `${index}-recomendation-card` }
+          className="px-4"
+          style={ {
+            maxWidth: '500px',
+            paddingBottom: '10px',
+          } }
+        >
           <p data-testid={ `${index}-recomendation-title` }>{ strDrink }</p>
         </div>
       );
