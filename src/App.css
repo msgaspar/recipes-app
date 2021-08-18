@@ -1,5 +1,9 @@
-.container {
-  width: 100%;
+html {
+  height: 100%;
+}
+
+body {
+  height: 100%;
 }
 
 .ingredients-checklist input:checked + label {
@@ -21,6 +25,16 @@
 .rocksGlass {
   animation: shake 1s infinite ease;
   max-height: 80vh;
+}
+
+.btn.btn-secondary {
+  background-color: #f6f6f6;
+  border: none;
+  color: #666;
+
+  /* font-weight: bold; */
+  font-size: 0.9rem;
+  min-width: 70px;
 }
 
 /*
@@ -73,4 +87,14 @@
   100% {
     transform: rotate(-10deg);
   }
+}
+
+.recipe-card:before {
+  background-image: linear-gradient(to bottom, #0000, #00000020, #000e);
+  bottom: 0;
+  content: '';
+  left: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
 }

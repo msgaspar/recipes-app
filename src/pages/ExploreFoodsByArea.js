@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import LowerMenu from '../components/LowerMenu';
+import RecipeCard from '../components/RecipeCard';
 import Header from '../components/Header';
 import { fetchRecipeAllFood,
   fetchRecipeBySelectedCountry, fetchRecipeCountry } from '../services/foodSearch';
@@ -35,42 +36,54 @@ export default function ExploreCountry() {
   return (
     <div>
       <Header title="Explorar Origem" showSearchIcon />
-      <select
-        data-testid="explore-by-area-dropdown"
-        name="country"
-        id="id-country"
-        onChange={ ({ target }) => setCountrySelected(target.value) }
+      <div
+        className="mx-4 d-flex flex-column align-items-center"
+        style={ {
+          paddingTop: '80px',
+        } }
       >
-        <option key="0" data-testid="All-option">All</option>
-        {countries.map((country, index) => (
-          <option
-            key={ index + 1 }
-            data-testid={ `${country.strArea}-option` }
-          >
-            {country.strArea}
-          </option>
-        ))}
-      </select>
 
-      <div>
-        { recepies.map((element, index) => (
-          <div
-            role="presentation"
-            key={ index }
-            data-testid={ `${index}-recipe-card` }
-            onClick={ () => history.push(`/comidas/${element.idMeal}`) }
-          >
-            <img
-              src={ element.strMealThumb }
-              data-testid={ `${index}-card-img` }
-              alt={ element.strMeal }
-              width="100px"
+        <select
+          className="w-100 py-3 px-3 h5 "
+          style={ {
+            borderRadius: '4px',
+            border: 'none',
+            backgroundColor: '#f5f5f5',
+          } }
+          data-testid="explore-by-area-dropdown"
+          name="country"
+          id="id-country"
+          onChange={ ({ target }) => setCountrySelected(target.value) }
+        >
+          <option key="0" data-testid="All-option">All</option>
+          {countries.map((country, index) => (
+            <option
+              key={ index + 1 }
+              data-testid={ `${country.strArea}-option` }
+            >
+              {country.strArea}
+            </option>
+          ))}
+        </select>
+
+        <div
+          className="mx-auto mt-2"
+          style={ {
+            maxWidth: '500px',
+            paddingBottom: '70px',
+          } }
+        >
+          { recepies.map((element, index) => (
+            <RecipeCard
+              key={ index }
+              recipeId={ element.idMeal }
+              imgUrl={ element.strMealThumb }
+              index={ index }
+              recipeName={ element.strMeal }
+              onClick={ () => history.push(`/comidas/${element.idMeal}`) }
             />
-            <p data-testid={ `${index}-card-name` }>
-              { element.strMeal}
-            </p>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
       <LowerMenu />
     </div>

@@ -7,7 +7,6 @@ export default function DrinkRecipes() {
   return (
     <div>
       <Header title="Bebidas" showSearchIcon />
-      Drink recipes
       <LowerMenu />
       <RecipesRender />
     </div>

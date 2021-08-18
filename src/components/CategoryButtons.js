@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
+import { Button } from 'react-bootstrap';
 import FoodsContext from '../context/FoodsContext';
 
 export default function CategoryButtons() {
@@ -101,27 +102,29 @@ export default function CategoryButtons() {
     const recipeCategories = buttonsCategories.map(({ strCategory }) => strCategory);
     return (
       recipeCategories.slice(0, sizeButtons).map((type) => (
-        <button
-          type="button"
+        <Button
+          className="m-1 flex-fill"
+          variant="secondary"
           key={ type }
           data-testid={ `${type}-category-filter` }
           onClick={ ({ target }) => toogleCategoryButton(target.innerHTML) }
         >
           { type }
-        </button>
+        </Button>
       ))
     );
   }
 
   return (
-    <div>
-      <button
-        type="button"
-        onClick={ () => handleAllCategory() }
+    <div className="d-flex flex-wrap justify-content-center px-5 mb-3">
+      <Button
+        className="m-1 flex-fill"
+        variant="secondary"
+        onClick={ handleAllCategory }
         data-testid="All-category-filter"
       >
         All
-      </button>
+      </Button>
       { recipeData && buttonsCategories ? generateCategoriesButtons() : null }
     </div>
   );

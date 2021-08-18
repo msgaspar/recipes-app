@@ -4,11 +4,12 @@ import LowerMenu from '../components/LowerMenu';
 import FoodsContext from '../context/FoodsContext';
 import Header from '../components/Header';
 import { fetchIngredientsDrink } from '../services/drinkSearch';
+import IngredientCard from '../components/IngredientCard';
 
 export default function ExploreDrinksByIngredients() {
   const history = useHistory();
   const [ingredients, setIngredients] = useState([]);
-  const { filteredIngredient, setFilteredIngredient } = useContext(FoodsContext);
+  const { setFilteredIngredient } = useContext(FoodsContext);
 
   useEffect(() => {
     const func = async () => {
@@ -23,26 +24,23 @@ export default function ExploreDrinksByIngredients() {
   return (
     <div>
       <Header title="Explorar Ingredientes" />
-      <div className="div-cards-ingredients">
+      <div
+        className="d-flex flex-wrap align-items-center mx-4"
+        style={ {
+          padding: '100px 0 70px',
+        } }
+      >
         {ingredients.length > 0 && ingredients.map((ingredient, index) => (
-          <div
-            role="presentation"
-            data-testid={ `${index}-ingredient-card` }
+          <IngredientCard
             key={ ingredient.idIngredient }
-            onClick={ () => {
+            index={ index }
+            name={ ingredient.strIngredient1 }
+            handleClick={ () => {
               setFilteredIngredient(ingredient.strIngredient1);
-              console.log(filteredIngredient);
               history.push('/bebidas');
             } }
-          >
-            <img
-              data-testid={ `${index}-card-img` }
-              width="100px"
-              src={ `https://www.thecocktaildb.com/images/ingredients/${ingredient.strIngredient1}-Small.png` }
-              alt=""
-            />
-            <p data-testid={ `${index}-card-name` }>{ingredient.strIngredient1}</p>
-          </div>
+            imgUrl={ `https://www.thecocktaildb.com/images/ingredients/${ingredient.strIngredient1}-Small.png` }
+          />
         ))}
       </div>
       <LowerMenu />

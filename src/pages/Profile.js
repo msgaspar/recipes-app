@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
+import { Button } from 'react-bootstrap';
 import Header from '../components/Header';
 import LowerMenu from '../components/LowerMenu';
 
 export default function Profile() {
   const [email, setEmail] = useState('');
+  const history = useHistory();
 
   // Converte a string em um objeto e atribui um novo valor ao email.
   useEffect(() => {
@@ -21,43 +23,54 @@ export default function Profile() {
   // Limpa o localStorage.
   const handleLogout = () => {
     localStorage.clear();
+    history.push('/');
   };
 
   return (
     <div>
       <Header title="Perfil" />
-      <div data-testid="profile-email">{ email }</div>
-      <Link
-        to="/receitas-favoritas"
+      <div
+        className="d-flex flex-column align-items-center"
+        style={ {
+          paddingTop: '80px',
+        } }
+        data-testid="profile-email"
       >
-        <button
-          type="button"
+        <h2
+          className="my-5"
+        >
+          { email }
+
+        </h2>
+
+        <Button
+          className="w-75 my-2"
+          variant="warning"
+          size="lg"
           data-testid="profile-favorite-btn"
+          onClick={ () => history.push('/receitas-favoritas') }
         >
           Receitas Favoritas
-        </button>
-      </Link>
-      <Link
-        to="/receitas-feitas"
-      >
-        <button
-          type="button"
+        </Button>
+        <Button
+          className="w-75 my-2"
+          variant="warning"
+          size="lg"
           data-testid="profile-done-btn"
+          onClick={ () => history.push('/receitas-feitas') }
         >
           Receitas Feitas
-        </button>
-      </Link>
-      <Link
-        to="/"
-      >
-        <button
-          type="button"
+        </Button>
+        <Button
+          className="w-75 my-2"
+          variant="warning"
+          size="lg"
           data-testid="profile-logout-btn"
           onClick={ handleLogout }
         >
           Sair
-        </button>
-      </Link>
+        </Button>
+      </div>
       <LowerMenu />
     </div>
   );
