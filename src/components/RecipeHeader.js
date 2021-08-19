@@ -43,10 +43,12 @@ function RecipeHeader({ imgUrl, category, name, type, area, alcoholicOrNot }) {
         <Col className="p-0">
           <Image
             fluid
+            className="rounded mx-auto d-block"
             src={ imgUrl }
             alt="Foto"
             data-testid="recipe-photo"
             style={ {
+              width: '30%',
               position: 'relative',
               borderRadius: '15px',
               overflow: 'hidden',
@@ -64,6 +66,7 @@ function RecipeHeader({ imgUrl, category, name, type, area, alcoholicOrNot }) {
             style={ {
               color: '#343a40',
               fontWeight: 'bold',
+              paddingLeft: '60%',
             } }
           >
             { name }
@@ -74,6 +77,9 @@ function RecipeHeader({ imgUrl, category, name, type, area, alcoholicOrNot }) {
               className="mt-2 mb-4 badge badge-dark"
               variant="secondary"
               data-testid="recipe-category"
+              style={ {
+                marginLeft: '70%',
+              } }
             >
               {handleCategoryByRoute()}
             </Badge>
