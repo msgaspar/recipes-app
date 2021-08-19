@@ -46,16 +46,32 @@ function RecipeHeader({ imgUrl, category, name, type, area, alcoholicOrNot }) {
             src={ imgUrl }
             alt="Foto"
             data-testid="recipe-photo"
+            style={ {
+              position: 'relative',
+              borderRadius: '15px',
+              overflow: 'hidden',
+              boxShadow:
+              'rgba(0, 0, 0, 0.1) 0px 10px 15px, rgba(0, 0, 0, 0.05) 0px 4px 6px',
+            } }
           />
         </Col>
       </Row>
-      <Row className="pt-3 align-items-start">
+      <Row className="pt-3 align-items-start px-2">
         <Col xs={ 8 }>
-          <h2 className="m-0" data-testid="recipe-title">{ name }</h2>
+          <h2
+            className="m-0"
+            data-testid="recipe-title"
+            style={ {
+              color: '#343a40',
+              fontWeight: 'bold',
+            } }
+          >
+            { name }
+          </h2>
           <h5>
             <Badge
               as="p"
-              className="mt-2 mb-4"
+              className="mt-2 mb-4 badge badge-dark"
               variant="secondary"
               data-testid="recipe-category"
             >

@@ -91,22 +91,58 @@ export default function DrinkDetails() {
         category={ drinkDetails && drinkDetails.strCategory }
         type="bebida"
       />
-      <div>
-        <h3>Ingredients</h3>
+      <div
+        className="px-4"
+        style={ {
+          maxWidth: '500px',
+        } }
+      >
+        <h3
+          style={ {
+            color: '#343a40',
+            fontWeight: 'bold',
+          } }
+        >
+          Ingredients
+        </h3>
         <ul>
           { drinkItems ? ingredientsInformation() : null }
         </ul>
       </div>
-      <div>
-        <h3>Instructions</h3>
+      <div
+        className="px-4"
+        style={ {
+          maxWidth: '500px',
+        } }
+      >
+        <h3
+          style={ {
+            color: '#343a40',
+            fontWeight: 'bold',
+          } }
+        >
+          Instructions
+        </h3>
         <p
           data-testid="instructions"
         >
           { drinkDetails ? drinkDetails.strInstructions : null }
         </p>
       </div>
-      <div>
-        <h3>Receitas recomendadas</h3>
+      <div
+        className="px-4"
+        style={ {
+          maxWidth: '500px',
+        } }
+      >
+        <h3
+          style={ {
+            color: '#343a40',
+            fontWeight: 'bold',
+          } }
+        >
+          Receitas recomendadas
+        </h3>
         <FoodRecommends recommends={ foodsRecommends } />
       </div>
       <StartDrinkRecipes />
