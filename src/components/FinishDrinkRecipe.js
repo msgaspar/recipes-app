@@ -13,7 +13,9 @@ export default function FinishDrinkRecipe({ checkIngredients, recipeData }) {
 
   function removeFoodFromInProgress(id) {
     const inProgressRecipes = JSON.parse(localStorage.getItem('inProgressRecipes'));
-    delete inProgressRecipes.cocktails[id];
+    if (inProgressRecipes) {
+      delete inProgressRecipes.cocktails[id];
+    }
     localStorage.setItem('inProgressRecipes', JSON.stringify(inProgressRecipes));
   }
 
