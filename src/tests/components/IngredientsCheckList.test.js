@@ -24,8 +24,8 @@ describe('IngredientsCheckList component', () => {
       />,
     );
 
-    const firstIngredient = screen.getByTestId('0-ingredient-step');
-    expect(firstIngredient).toBeInTheDocument();
+    const sectionTitle = screen.getByText('Ingredients');
+    expect(sectionTitle).toBeInTheDocument();
   });
 
   it('should be possible to check an ingredient', () => {
@@ -39,7 +39,7 @@ describe('IngredientsCheckList component', () => {
       />,
     );
 
-    const ingredientCheckBox = screen.getByTestId('0-ingredient-step-input');
+    const ingredientCheckBox = screen.getByText('ingrediente1');
     ingredientCheckBox.click();
     expect(setCheckIngredients).toBeCalledTimes(1);
   });
@@ -56,8 +56,8 @@ describe('IngredientsCheckList component', () => {
       />,
     );
 
-    const ingredientCheckBox2 = screen.getByTestId('1-ingredient-step-input');
-    const ingredientCheckBox3 = screen.getByTestId('2-ingredient-step-input');
+    const ingredientCheckBox2 = screen.getByText('ingrediente2');
+    const ingredientCheckBox3 = screen.getByText('ingrediente3');
     ingredientCheckBox2.click();
     ingredientCheckBox3.click();
     expect(setCheckIngredients).toBeCalledWith(true);

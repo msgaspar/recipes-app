@@ -65,7 +65,7 @@ function IngredientsCheckList({ ingredients, setAllIngredientsChecked }) {
               <input
                 type="checkbox"
                 id={ `${index}-ingredient-step-input` }
-                data-testid={ `${index}-ingredient-step-input` }
+                // data-testid={ `${index}-ingredient-step-input` }
                 className="mb-2 ml-4"
                 name={ name }
                 checked={ isIngredientChecked(name) }
