@@ -18,7 +18,7 @@ describe('RecipeHeader component', () => {
     const props = {
       imgUrl: 'imgUrl',
       category: 'category',
-      name: 'nome da receita',
+      name: 'receita',
       type: 'comida',
       area: 'país',
       alcoholicOrNot: 'alcoholic',
