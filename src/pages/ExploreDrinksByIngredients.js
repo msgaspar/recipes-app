@@ -32,7 +32,7 @@ export default function ExploreDrinksByIngredients() {
       >
         {ingredients.length > 0 && ingredients.map((ingredient, index) => (
           <IngredientCard
-            key={ ingredient.idIngredient }
+            key={ index }
             index={ index }
             name={ ingredient.strIngredient1 }
             handleClick={ () => {
