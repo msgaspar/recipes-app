@@ -12,7 +12,7 @@ Este projeto é uma aplicação mobile-only, portanto o layout pode quebrar se f
 
 Para acessar o link no seu celular, use o QR Code abaixo:
 
-![QR code para acessar a aplicação](./qr-code.png)
+![QR code para acessar a aplicação](./qrcode.png)
 
 ### Stack utilizada
 
